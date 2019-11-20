@@ -2,7 +2,7 @@
 
 import re
 
-pattern = r"^[-+]?[0-9]+$"  # Pattern to find positing or negative integer.
+pattern = r"^[-+]?[0-9]+$"  # Pattern to find positive or negative integer.
 exit_keys = ("n", "e", "ex", "exi", "exit")     # Use these keys to exit.
 print("Exit keys: n, e, ex, exi, exit. Type key + Enter to exit")
 
