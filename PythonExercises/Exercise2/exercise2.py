@@ -6,7 +6,7 @@ pattern = r"^[-+]?[0-9]+$"  # Pattern to find positing or negative integer.
 exit_keys = ("n", "e", "ex", "exi", "exit")     # Use these keys to exit.
 print("Exit keys: n, e, ex, exi, exit. Type key + Enter to exit")
 
-while True: # Loop forever or until exit key is typed.
+while True:     # Loop forever or until exit key is typed.
     prompt = "Please, type an integer number and press enter"
     user_input = input(prompt + 50*" " + "exit keys: " + str(exit_keys) + "\n")     # Get user input.
 
