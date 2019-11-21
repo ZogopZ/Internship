@@ -32,4 +32,4 @@ while True:     # Loop forever or until exit key is typed.
         print("---> " + str(answer_list) + "\n")
 
     else:                               # User input is not valid integer type.
-        print(" The value you just typed is not an integer. Please, try again.\n")
+        print("---> The value you just typed is not an integer. Please, try again.\n")
