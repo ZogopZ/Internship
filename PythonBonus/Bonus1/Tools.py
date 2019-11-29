@@ -97,12 +97,14 @@ def send_email(zois_email):
     server.ehlo()  # Hostname to send for this command defaults to the fully qualified domain name of the local host.
     server.starttls()  # Puts connection to SMTP server in TLS mode
     server.ehlo()
-    password_file_1 = open('/home/zois/Documents/classified/spamMail/mail1')
-    # password_file_1 = open('mail1') # For better encrypting your files.
-    password_file_2 = open('/home/zois/Documents/classified/spamMail/mail2')
-    # password_file_2 = open('mail2') # For better encrypting your files.
+    password_file_1 = open('/home/zois/Documents/classified/spamMail/mail1', 'r')
+    # password_file_1 = open('mail1', 'r')    # For better encrypting your files.
+    password_file_2 = open('/home/zois/Documents/classified/spamMail/mail2', 'r')
+    # password_file_2 = open('mail2', 'r')    # For better encrypting your files.
     password_extracted_1 = password_file_1.read()
     password_extracted_2 = password_file_2.read()
+    print(password_extracted_1)
+    print(password_extracted_2)
     password = (password_extracted_1[0] + "o" +
                 password_extracted_1[5] + "o" +
                 password_extracted_1[9] +
