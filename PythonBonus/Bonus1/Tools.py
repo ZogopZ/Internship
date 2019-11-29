@@ -39,13 +39,14 @@ def set_dates(work_start, work_end):
 
 def set_working_status(now):
     global working_status
+    print(working_status)
     for day in holidays:  # No work during holidays.
         if now.date() == day:
             working_status = False
     for day in weekends:  # No work during weekends.
         if now.date() == day.date():
             working_status = False
-    if now.hour < 9 or now.hour > 15:  # No work yet or worked already.
+    if now.hour < 9 or now.hour > 17:  # No work yet or worked already.
         working_status = False
 
 
@@ -103,8 +104,6 @@ def send_email(zois_email):
     # password_file_2 = open('mail2', 'r')    # For better encrypting your files.
     password_extracted_1 = password_file_1.read()
     password_extracted_2 = password_file_2.read()
-    print(password_extracted_1)
-    print(password_extracted_2)
     password = (password_extracted_1[0] + "o" +
                 password_extracted_1[5] + "o" +
                 password_extracted_1[9] +
@@ -117,10 +116,10 @@ def send_email(zois_email):
     server.login('zwisss@hotmail.com', password)  # Login Credentials.
     server.sendmail(msg['From'], "zwisss@hotmail.com", msg.as_string())  # Send the message via the server.
     print("\nMail to zwisss@hotmail.com was successfully sent.")
-    # server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
-    # print("Mail to theonzwg@gmail.com was successfully sent.")
-    # server.sendmail(msg['From'], "Marianna.Leventi@ruhr-uni-bochum.de", msg.as_string())
-    # print("Mail to Marianna.Leventi@ruhr-uni-bochum.de was successfully sent.")
-    # server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
-    # print("Mail to tzogx@hotmail.com was successfully sent.")
+    server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
+    print("Mail to theonzwg@gmail.com was successfully sent.")
+    server.sendmail(msg['From'], "Marianna.Leventi@ruhr-uni-bochum.de", msg.as_string())
+    print("Mail to Marianna.Leventi@ruhr-uni-bochum.de was successfully sent.")
+    server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
+    print("Mail to tzogx@hotmail.com was successfully sent.")
     server.quit()

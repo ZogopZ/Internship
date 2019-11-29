@@ -42,7 +42,9 @@ elif not get_working_status():
     print(output_2, flush=True)
 
 time_worked = 0
+days_worked = 1
 for day in working_dates:  # For each working day, calculate the sum of working seconds.
+    days_worked += 1
     if day.year == now.year and day.month == now.month and day.day == now.day:
         break  # For today working seconds are already calculated.
     time_worked += 8 * 60 * 60
@@ -52,7 +54,9 @@ elif not get_working_status() and now.date in working_dates:  # If I am not work
     time_worked += time_worked_today  # add pay earned today to total pay.
 microseconds_passed = time_worked * (10 ** 6)  # Convert to microseconds.
 euro_made = (microseconds_passed * pay_per_microsecond_8)
-output_3 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ.\r"
+output_3 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ και έχω δουλέψει " + str(days_worked) + " ημέρες, " \
+                                                                                                    "συνυπολογίζοντας" \
+                                                                                                    "την σημερινή.\r"
 print(output_3, flush=True)
 
 zois_email = output_1 + output_2 + output_3 + "\r\n\r\nThis is an automated email from Python.\r"
