@@ -39,7 +39,6 @@ def set_dates(work_start, work_end):
 
 def set_working_status(now):
     global working_status
-    print(working_status)
     for day in holidays:  # No work during holidays.
         if now.date() == day:
             working_status = False
