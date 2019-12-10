@@ -16,8 +16,12 @@ set_holidays()  # and holidays.
 set_working_status(now)  # Sets working_status True if working, false if not.
 
 total_to_be_paid = (580.8 - 580.8 * 0.2976) * 6  # Total pay for 6 month internship.
-pay_per_microsecond_8 = total_to_be_paid / (len(working_dates) * 8 * 60 * 60 * 1000 * 1000)
-pay_per_hour_8 = total_to_be_paid / (len(working_dates) * 8)
+# pay_per_microsecond_8 = total_to_be_paid / (len(working_dates) * 8 * 60 * 60 * 1000 * 1000)
+# pay_per_hour_8 = total_to_be_paid / (len(working_dates) * 8)
+pay_per_hour_8 = 23.232/8
+pay_per_microsecond_8 = 23.232/(8*60*60*1000*1000)
+# Above pay_per_* values are pre calculated by the corresponding company as 23.232 euro per day.
+
 # Calculate pay per microsecond working 8 hours a day.
 
 so_many_today = last_day_date + timedelta(hours=8) - now  # Generate date difference.
@@ -28,7 +32,8 @@ output_1 = "Η πρακτική μου τελειώνει σε " + str(tfl[0]) +
            + str(tfl[4]) + " λεπτά " + str(tfl[5]) + " δευτερόλεπτα " \
            + str(tfl[6]) + " χιλιοστά του δευτερολέπτου και " \
            + str(tfl[7]) + " μικροδευτερόλεπτα.\r"
-print(output_1, flush=True)
+print(output_1)
+
 
 output_2 = ""
 if get_working_status():  # If I am working right now, calculate pay earned today.
@@ -36,10 +41,10 @@ if get_working_status():  # If I am working right now, calculate pay earned toda
     microseconds_passed_today = time_worked_today.total_seconds() * (10 ** 6)  # Convert to microseconds.
     euro_made_today = (microseconds_passed_today * pay_per_microsecond_8)
     output_2 = "Σήμερα έχω ήδη βγάλει " + str(euro_made_today) + " ευρώ.\r"
-    print(output_2, flush=True)
+    print(output_2)
 elif not get_working_status():
     output_2 = "\nΣήμερα δεν δουλεύω...Ουχουυυυυυυυυ.\r"
-    print(output_2, flush=True)
+    print(output_2)
 
 time_worked = 0
 days_worked = 0
@@ -54,10 +59,17 @@ elif not get_working_status() and now.date in working_dates:  # If I am not work
     time_worked += time_worked_today  # add pay earned today to total pay.
 microseconds_passed = time_worked * (10 ** 6)  # Convert to microseconds.
 euro_made = (microseconds_passed * pay_per_microsecond_8)
-output_3 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ και έχω δουλέψει " + str(days_worked) + " ημέρες, " \
+if (euro_made / 580.8) < 1:     # First month work was less than a full months work.
+    monthly_wage_earned = euro_made - 359.63
+elif (euro_made / 580.8) > 1:   # Not first month of work.
+    full_months_passed = int((euro_made-359.63) / 580.8)     # Calculate full months passed.
+    monthly_wage_earned = euro_made - 359.63 - full_months_passed*580.8
+output_3 = "Μηνιαία έχω βγάλει " + str(monthly_wage_earned) + " ευρώ."
+output_4 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ και έχω δουλέψει " + str(days_worked) + " ημέρες, " \
                                                                                                     "συνυπολογίζοντας " \
                                                                                                     "την σημερινή.\r"
-print(output_3, flush=True)
+print(output_3)
+print(output_4)
 
-zois_email = output_1 + output_2 + output_3 + "\r\n\r\nThis is an automated email from Python.\r"
+zois_email = output_1 + output_2 + output_3 + output_4 + "\r\n\r\nThis is an automated email from Python.\r"
 #send_email(zois_email)
