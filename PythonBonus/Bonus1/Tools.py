@@ -90,7 +90,7 @@ def send_email(zois_email):
     msg['From'] = "zwisss@hotmail.com"  # Setup the parameters of the message.
     # msg['To'] = ", ".join(recipients)
     # msg['To'] = "zwisss@hotmail.com"
-    msg['Subject'] = "Ολατακοιτωσανπαιδικουτο"
+    msg['Subject'] = "Very important staff."
     msg.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
 
     server = smtplib.SMTP("smtp.live.com", 587)
@@ -114,11 +114,14 @@ def send_email(zois_email):
                 password_extracted_1[22])
     server.login('zwisss@hotmail.com', password)  # Login Credentials.
     server.sendmail(msg['From'], "zwisss@hotmail.com", msg.as_string())  # Send the message via the server.
-    print("\nMail to zwisss@hotmail.com was successfully sent.")
+    print("\nMail to maself was successfully sent.")
     server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
-    print("Mail to theonzwg@gmail.com was successfully sent.")
+    print("Mail to Porportheon was successfully sent.")
     server.sendmail(msg['From'], "Marianna.Leventi@ruhr-uni-bochum.de", msg.as_string())
-    print("Mail to Marianna.Leventi@ruhr-uni-bochum.de was successfully sent.")
+    print("Mail to Marianna, was successfully sent.")
     server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
-    print("Mail to tzogx@hotmail.com was successfully sent.")
+    print("Mail to Taso, was successfully sent.")
+    server.sendmail(msg['From'], "ilias.Anagnostopoulos@intrasoft-intl.com", msg.as_string())
+    print("Mail to Ilia, was successfully sent.")
+
     server.quit()

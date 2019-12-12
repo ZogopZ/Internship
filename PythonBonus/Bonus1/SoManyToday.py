@@ -8,7 +8,6 @@ from PythonBonus.Bonus1.Tools import *
 # if you want to run it one line from a terminal.
 
 now = datetime.datetime.today()  # Get current date-time.
-print("\n" + str(now))
 first_day_date = datetime.datetime(2019, 11, 13, 9)  # Specify starting date of internship.
 last_day_date = datetime.datetime(2020, 5, 13, 9)  # Specify ending date of internship.
 set_dates(first_day_date, last_day_date)  # Sets working dates, weekends
@@ -31,8 +30,7 @@ output_1 = "Η πρακτική μου τελειώνει σε " + str(tfl[0]) +
            + str(tfl[3]) + " ημέρες " + str(tfl[3]) + " ώρες " \
            + str(tfl[4]) + " λεπτά " + str(tfl[5]) + " δευτερόλεπτα " \
            + str(tfl[6]) + " χιλιοστά του δευτερολέπτου και " \
-           + str(tfl[7]) + " μικροδευτερόλεπτα.\r"
-print(output_1)
+           + str(tfl[7]) + " μικροδευτερόλεπτα.\r\n"
 
 
 output_2 = ""
@@ -40,11 +38,9 @@ if get_working_status():  # If I am working right now, calculate pay earned toda
     time_worked_today = now - datetime.datetime(now.year, now.month, now.day, 9)  # Calculate working time today.
     microseconds_passed_today = time_worked_today.total_seconds() * (10 ** 6)  # Convert to microseconds.
     euro_made_today = (microseconds_passed_today * pay_per_microsecond_8)
-    output_2 = "Σήμερα έχω ήδη βγάλει " + str(euro_made_today) + " ευρώ.\r"
-    print(output_2)
+    output_2 = "Σήμερα έχω ήδη βγάλει " + str(euro_made_today) + " ευρώ.\r\n"
 elif not get_working_status():
-    output_2 = "\nΣήμερα δεν δουλεύω...Ουχουυυυυυυυυ.\r"
-    print(output_2)
+    output_2 = "\nΣήμερα δεν δουλεύω...Ουχουυυυυυυυυ.\r\n"
 
 time_worked = 0
 days_worked = 0
@@ -64,12 +60,15 @@ if (euro_made / 580.8) < 1:     # First month work was less than a full months w
 elif (euro_made / 580.8) > 1:   # Not first month of work.
     full_months_passed = int((euro_made-359.63) / 580.8)     # Calculate full months passed.
     monthly_wage_earned = euro_made - 359.63 - full_months_passed*580.8
-output_3 = "Μηνιαία έχω βγάλει " + str(monthly_wage_earned) + " ευρώ."
-output_4 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ και έχω δουλέψει " + str(days_worked) + " ημέρες, " \
-                                                                                                    "συνυπολογίζοντας " \
-                                                                                                    "την σημερινή.\r"
-print(output_3)
-print(output_4)
+output_3 = "Μηνιαία έχω βγάλει " + str(monthly_wage_earned) + " ευρώ.\r\n"
+output_4 = "Συνολικά έχω βγάλει " + str(euro_made) + " ευρώ και έχω δουλέψει " + \
+           str(days_worked) + " ημέρες, συνυπολογίζοντας την σημερινή.\r\n\r\n"
+signature = "Regards,\r\nZois Zogopoulos\r\n"
+pySignature = 62*" " + "This is an automated email from Python.\r\n"
 
-zois_email = output_1 + output_2 + output_3 + output_4 + "\r\n\r\nThis is an automated email from Python.\r"
-#send_email(zois_email)
+dateString = "Ημερομηνία: " + str(now.date()) + "\r\nΏρα: " + str(now.time()) + "\r\n\r\n"
+zois_email = dateString + output_1 + output_2 + output_3 + output_4 + signature + pySignature
+
+print(zois_email)
+# send_email(zois_email)
+
