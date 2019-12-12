@@ -90,7 +90,7 @@ def send_email(zois_email):
     msg['From'] = "zwisss@hotmail.com"  # Setup the parameters of the message.
     # msg['To'] = ", ".join(recipients)
     # msg['To'] = "zwisss@hotmail.com"
-    msg['Subject'] = "Very important staff."
+    msg['Subject'] = "Very important stuff."
     msg.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
 
     server = smtplib.SMTP("smtp.live.com", 587)
