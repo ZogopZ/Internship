@@ -45,7 +45,9 @@ def set_working_status(now):
     for day in weekends:  # No work during weekends.
         if now.date() == day.date():
             working_status = False
-    if now.hour < 9 or now.hour > 17:  # No work yet or worked already.
+    before_work = datetime.datetime(now.year, now.month, now.day, 9, 0, 0, 1)   # Same date as today, before work.
+    after_work = datetime.datetime(now.year, now.month, now.day, 17, 0, 0, 1)   # Same date as today, after work.
+    if now <= before_work or now >= after_work:
         working_status = False
 
 
@@ -90,29 +92,14 @@ def send_email(zois_email):
     msg['From'] = "zwisss@hotmail.com"  # Setup the parameters of the message.
     # msg['To'] = ", ".join(recipients)
     # msg['To'] = "zwisss@hotmail.com"
-    msg['Subject'] = "Very important stuff."
+    msg['Subject'] = "Very important stuff"
     msg.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
 
     server = smtplib.SMTP("smtp.live.com", 587)
     server.ehlo()  # Hostname to send for this command defaults to the fully qualified domain name of the local host.
     server.starttls()  # Puts connection to SMTP server in TLS mode
     server.ehlo()
-    password_file_1 = open('/home/zois/Documents/classified/spamMail/mail1', 'r')
-    # password_file_1 = open('mail1', 'r')    # For better encrypting your files.
-    password_file_2 = open('/home/zois/Documents/classified/spamMail/mail2', 'r')
-    # password_file_2 = open('mail2', 'r')    # For better encrypting your files.
-    password_extracted_1 = password_file_1.read()
-    password_extracted_2 = password_file_2.read()
-    password = (password_extracted_1[0] + "o" +
-                password_extracted_1[5] + "o" +
-                password_extracted_1[9] +
-                password_extracted_1[13] + "a" +
-                password_extracted_1[18] +
-                password_extracted_2[2] +
-                password_extracted_2[7] +
-                password_extracted_2[13] +
-                password_extracted_1[22])
-    server.login('zwisss@hotmail.com', password)  # Login Credentials.
+    server.login('zwisss@hotmail.com', password=input())  # Login Credentials.
     server.sendmail(msg['From'], "zwisss@hotmail.com", msg.as_string())  # Send the message via the server.
     print("\nMail to maself was successfully sent.")
     server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
@@ -121,6 +108,7 @@ def send_email(zois_email):
     print("Mail to Marianna, was successfully sent.")
     server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
     print("Mail to Taso, was successfully sent.")
+    msg['Subject'] = "Σχετικά με τον μηνιαίο μισθό."
     server.sendmail(msg['From'], "ilias.Anagnostopoulos@intrasoft-intl.com", msg.as_string())
     print("Mail to Ilia, was successfully sent.")
 
