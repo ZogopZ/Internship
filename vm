@@ -1,0 +1,11 @@
+#!/bin/bash
+
+substring=${0##*/}
+
+if  [ $1 = "-r" ]; then
+	connector="ssh root@10.10.111.77"
+	eval $connector
+elif [  $1 = "-u" ]; then
+	connector="ssh roms@10.10.111.77"
+	eval $connector
+fi

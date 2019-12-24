@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+source tools								# Include tools in this file. Relative path to tools.
+
+
+choice="invalid"
+echo -e "${UserDim}User       |${User}  -Type new to create a new alias.${Color_Off}"
+echo -e "${UserDim}User       |${User}  -Type rm to delete an existing alias.${Color_Off}"
+echo -e "${UserDim}User       |${User}  -Type exit to exit.${Color_Off}"
+while [ $choice = "invalid" ]
+  do
+    read -p "$(echo -e "${UserDim}user       |${User} What would you like to do (new/rm/exit)?: ${ColorOff}")" choice
+    case "$choice" in
+        new )
+                read -p "$(echo -e "${UserDim}user       |${User} Please type your alias name... This name will be later used to call your created shortcuts:${ColorOff}")" aliasName
+                read -p "$(echo -e "${UserDim}user       |${User} Please type your command to be aliased (copied to ~/.bashrc)...:${ColorOff}")" aliasCommand
+                echo "alias ${aliasName}=\"${aliasCommand}\"" >> ~/.bashrc
+		exec bash   # Restart bash.
+                ;;
+        rm )
+                echo -e "${WarningDim}Warning    |${Warning} This will only remove alias from file ~/.bashrc and then restart bash. It will not delete any source files.${Color_Off}"
+                read -p "$(echo -e "${UserDim}user       |${User} Please type alias name to be removed:${ColorOff}")" aliasName
+		su $currentUser & sed -i "/alias ${aliasName}=/c\\" ~/.bashrc # Replace line where aliasName was found with empty line. Do this as current user (will not work as root).
+		exec bash   # Restart bash.
+                ;;
+        exit )
+                ;;
+        * )
+                choice="invalid"
+                echo -e "${UserDim}User       |${User} Invalid selection. Please type new, rm or exit to continue...${Color_Off}";;
+    esac
+  done
+

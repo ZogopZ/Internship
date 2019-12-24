@@ -1,0 +1,65 @@
+#!/bin/bash
+
+
+######################### Colors
+DefaultColor='\e[0m'    # Color text default
+DefaultBd='\e[49m'	# Background color default
+Red='\e[0;31m'          # Red
+RedDim='\e[2;31m'       # Red dim
+Blue='\e[0;34m'         # Blue
+BlueDim='\e[2;34m'      # Blue dim
+Cyan='\e[0;36m'         # Cyan
+CyanDim='\e[2;36m'      # Cyan dim
+User='\e[0;37m'         # White
+UserDim='\e[2;37m'      # White dim
+WhiteBold='\e[1;37m'    # White bold
+DarkGray='\e[0;100m'    # Dark gray
+DarkGrayDim='\e[2;100m' # Dark gray dim
+Error='\e[37;1;41m'	# Red background
+
+
+# User recon.
+userB=false
+if [ "$USER" == "root" ]; then
+  echo -e "${CyanDim}Warning!   |${Cyan} Root user detected... Please switch to current user.${DefaultColor}"
+fi
+while [ "$userB" == "false" ]
+do
+  echo -e "${UserDim}User       |${User} Please type your username and press enter.${DefaultColor}"
+  read -p "$(echo -e ${UserDim}"user       | "${User})" username
+  if [ "$username" == "root" ]; then
+    echo -e "${Error}Error      | User cannot be root... Please enter a valid username.${DefaultBd}${DefaultColor}"
+  elif [ "$username" == "zois" ]; then
+    echo -e "${UserDim}User       |${User} Continuing with user ${username}....${DefaultColor}"
+    userB=true
+  else
+    echo -e "${Error}Error      | Invalid username ${username}. Please try again...${DefaultBd}${DefaultColor}"
+  fi
+done
+
+pathToHardLink="/home/$username/Documents/classified/Utility-links/good-morning"
+pathToTempHardLink="/home/$username/Documents/classified/Utility-links/good-morning.tmp"
+# pathToHardLink="/home/#username/Documents/classified/Testing/tst_good-morning"
+
+messageLine=$(grep -n Message $pathToHardLink | cut -d : -f 1)   # Find which line has the previous message to be edited.
+
+messageLength=0
+while [[ $messageLength -gt 76 || $messageLength -eq 0 ]]   # Message length cannot exceed 76 characters. This is for printing reasons only.
+do
+  echo -e "${UserDim}User       |${User} Please type your message and press enter. You are allowed 76 characters.${DefaultColor}"
+  read newMessage
+  messageLength=${#newMessage}   # Calculate length of the new message typed.
+  if [ $messageLength -gt 76 ]; then   # Too long message.
+    echo -e "${CyanDim}Warning!   |${Cyan} Message cannot exceed 76 characters... You entered $messageLength characters.${DefaultColor}"
+  elif [  $messageLength -lt 76 ]; then   # New message has the correct length.
+    countSpaces=$((76-$messageLength))   # Find out how many space characters need to be appended.
+    appendSpaces=$(head -c $countSpaces < /dev/zero | tr '\0' '\040')   # Create a string with calculated space characters..
+    newMessage="${newMessage}${appendSpaces}"   # Append spaces string to new message.
+  fi
+done
+
+sed  "${messageLine}"'s/\(.*day:|\*\*\* \)\(.*\)\( \*\*\*.*\)/\1'"${newMessage}"'\3/' $pathToHardLink > $pathToTempHardLink
+cat $pathToTempHardLink > $pathToHardLink
+# Use sed to substitue old message with new message in file good-morning
+sed -n -e 27p -e 28p -e 29p $pathToHardLink   # Check if everything looks fine.
+rm $pathToTempHardLink

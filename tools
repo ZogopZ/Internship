@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+currentUser="zois"
+
+#########################
+#        Colors         #
+#########################
+ColorOff='\e[0m'    	# Color text default
+DefaultBd='\e[49m'      # Background color default
+Backup='\e[0;31m'       # Red
+BackupDim='\e[2;31m'    # Red dim
+Internet='\e[0;34m'     # Blue
+InternetDim='\e[2;34m'  # Blue dim
+Warning='\e[0;36m'      # Cyan
+WarningDim='\e[2;36m'   # Cyan dim
+User='\e[0;37m'         # White
+UserDim='\e[2;37m'      # White dim
+UserBold='\e[1;37m'     # White bold
+#DarkGray='\e[0;100m'   # Dark gray
+#DarkGrayDim='\e[2;100m'# Dark gray dim
+Error='\e[37;1;41m'     # Red background
+
