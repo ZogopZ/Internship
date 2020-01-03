@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 source tools								# Include tools in this file. Relative path to tools.
 
 

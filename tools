@@ -2,6 +2,7 @@
 
 
 currentUser="zois"
+remote="root@10.10.111.77"
 
 #########################
 #        Colors         #
@@ -21,3 +22,9 @@ UserBold='\e[1;37m'     # White bold
 #DarkGrayDim='\e[2;100m'# Dark gray dim
 Error='\e[37;1;41m'     # Red background
 
+trustRemote()
+{
+	ssh-keygen -t rsa
+	ssh $remote mkdir -p .ssh
+	cat /home/zois/.ssh/id_rsa.pub | ssh $remote 'cat >> /root/.ssh/authorized_keys'
+}

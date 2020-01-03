@@ -25,7 +25,7 @@ choice="invalid"
 echo -e "${BlueDim}Init       |${Blue} Good morning to you too! Let's start, shall we?" & sleep 1.2
 echo -e "${BlueDim}Init       |${Blue}                    ______________________________________________________________________________________"
 echo -e "${BlueDim}Init       |${Blue}                    |************************************************************************************|"
-echo -e "${BlueDim}Init       |${Blue} Message of the day:|*** Redmine's version control was offline yesterday. Continue backing up redmine ***|"
+echo -e "${BlueDim}Init       |${Blue} Message of the day:|*** Keep working on backing up redmine. Run script from server!                  ***|"
 echo -e "${BlueDim}Init       |${Blue}                    |************************************************************************************|"
 printf "${BlueDim}Init       |"
 printf " %.0s" {1..20}

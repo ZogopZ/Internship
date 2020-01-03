@@ -1,0 +1,7 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utility-links/tools
+
+scp updater $remote:
+ssh $remote ./updater
+wait
+ssh $remote rm updater
