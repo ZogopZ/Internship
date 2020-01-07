@@ -37,8 +37,8 @@ do
   fi
 done
 
-pathToHardLink="/home/$username/Documents/classified/Utility-links/good-morning"
-pathToTempHardLink="/home/$username/Documents/classified/Utility-links/good-morning.tmp"
+pathToHardLink="/home/$username/Documents/classified/Utilities/good-morning"
+pathToTempHardLink="/home/$username/Documents/classified/Utilities/good-morning.tmp"
 # pathToHardLink="/home/#username/Documents/classified/Testing/tst_good-morning"
 
 messageLine=$(grep -n Message $pathToHardLink | cut -d : -f 1)   # Find which line has the previous message to be edited.

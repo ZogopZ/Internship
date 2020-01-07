@@ -1,19 +1,6 @@
 #!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools
 
-
-######################### Colors
-Color_Off='\e[0m'       # Text Reset
-Red='\e[0;31m'          # Red
-RedDim='\e[2;31m'       # Red Dim
-Blue='\e[0;34m'         # Blue
-BlueDim='\e[2;34m'      # Blue Dim
-Cyan='\e[0;36m'         # Cyan
-CyanDim='\e[2;36m'      # Cyan Dim
-White='\e[0;37m'        # White
-WhiteDim='\e[2;37m'     # White Dim
-WhiteBold='\e[1;37m'    # White Bold
-DarkGray='\e[0;100m'    # Dark Gray
-DarkGrayDim='\e[2;100m' # Dark Gray Dim
 
 user="$(sudo users)"
 dbDir="/home/$user/Documents/postgreSQL-backup"
@@ -22,55 +9,55 @@ findMount=$(mount -l | grep -oe "root@10.10.111.77:/var/www/html/redmine/ on /ho
 choice="invalid"
 
 # Welcome message.
-echo -e "${BlueDim}Init       |${Blue} Good morning to you too! Let's start, shall we?" & sleep 1.2
-echo -e "${BlueDim}Init       |${Blue}                    ______________________________________________________________________________________"
-echo -e "${BlueDim}Init       |${Blue}                    |************************************************************************************|"
-echo -e "${BlueDim}Init       |${Blue} Message of the day:|*** Keep working on backing up redmine. Run script from server!                  ***|"
-echo -e "${BlueDim}Init       |${Blue}                    |************************************************************************************|"
-printf "${BlueDim}Init       |"
+echo -e "${OtherDim}Init       |${Other} Good morning to you too! Let's start, shall we?"
+echo -e "${OtherDim}Init       |${Other}                    ______________________________________________________________________________________"
+echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
+echo -e "${OtherDim}Init       |${Other} Message of the day:|*** Keep working on backing up redmine. Run script from server!                  ***|"
+echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
+printf "${OtherDim}Init       |"
 printf " %.0s" {1..20}
 printf "\u203E%0.s" {1..86}
-printf "\n" & sleep 4.5
+printf "\n${Color_Off}"
 
 # Check for mounted redmine directory and mount it if necessary.
 if [ -z "$findMount" ]; then
-  echo -e "${CyanDim}Warning!   |${Cyan} Remote Redmine file system was not found locally."
-  echo -e "${CyanDim}Warning!   |${Cyan} Would you like to mount it automatically (y/n)?${Color_Off}"
+  echo -e "${WarningDim}Warning!   |${Warning} Remote Redmine file system was not found locally."
+  echo -e "${WarningDim}Warning!   |${Warning} Would you like to mount it automatically (y/n)?${Color_Off}"
   while [ $choice = "invalid" ]
   do
     read choice
     case "$choice" in
-      y|Y )  echo -e "${WhiteDim}User       |${White} Mounting remote CentOS Redmine directory locally...${Color_Off}"
+      y|Y )  echo -e "${UserDim}User       |${User} Mounting remote CentOS Redmine directory locally...${Color_Off}"
              sudo -u ${user} sshfs ${remote}:/var/www/html/redmine/ /home/zois/Documents/Redmine_on-server;;
       n|N ) ;;
         * )  choice="invalid"
-             echo -e "${WhiteDim}User       |${White} Invalid selection. Please type y or n to continue...${Color_Off}";;
+             echo -e "${UserDim}User       |${User} Invalid selection. Please type y or n to continue...${Color_Off}";;
     esac
   done
 elif [ "$findMount" == "root@10.10.111.77:/var/www/html/redmine/ on /home/zois/Documents/Redmine_on-server type fuse.sshfs" ]; then
-  echo -e "${WhiteDim}User       |${White} Remote CentOs Redmine directory is already mounted locally...${Color_Off}"
+  echo -e "${UserDim}User       |${User} Remote CentOs Redmine directory is already mounted locally...${Color_Off}"
 fi
 
 # Check for postgreSQL backup directory and create it if it doesn't exist.
 # Give required permissions to user.
-echo -e "${RedDim}Back-up    |${Red} Checking if backup directory for postgreSQL exists" & sleep 0.5
+echo -e "${BackupDim}Back-up    |${Backup} Checking if backup directory for postgreSQL exists" & sleep 0.5
 if [ -d "$dbDir" ]; then
-  echo -e "${RedDim}Back-up    |${Red} Directory '${dbDir}' exists!" & sleep 0.5
+  echo -e "${BackupDim}Back-up    |${Backup} Directory '${dbDir}' exists!" & sleep 0.5
 else
   echo -e "${CyanDim}Warning!   |${Cyan} Directory '${dbDir}' does not exist..." & sleep 0.5
-  echo -e "${RedDim}Back-up    |${Red} Creating directory '${dbDir}'." & sleep 1
+  echo -e "${BackupDim}Back-up    |${Backup} Creating directory '${dbDir}'." & sleep 1
   mkdir ${dbDir}
-  echo -e "${RedDim}Back-up    |${Red} Adding permissions for user:${user}" & sleep 0.5
+  echo -e "${BackupDim}Back-up    |${Backup} Adding permissions for user:${user}" & sleep 0.5
   sudo chown -R ${user}:${user} ${dbDir}
 fi
 
 # Generate postgreSQL backup file and dump remote database in it.
-echo -e "${WhiteDim}User       |${White} Please attach a label to the sql backup file..."
+echo -e "${UserDim}User       |${User} Please attach a label to the sql backup file..."
 read label
-echo -e "${RedDim}Back-up    |${Red} Creating backup file..." & sleep 0.5
+echo -e "${BackupDim}Back-up    |${Backup} Creating backup file..." & sleep 0.5
 backupFile="postgre-(${label})--$(date +"%Y-%m-%d(%T)").sql"
 backupFileFullPath="${dbDir}/${backupFile}"
 touch ${backupFileFullPath}
-echo -e "${RedDim}Back-up    |${Red} Dumping remote database to '${dbDir}${backupFile}'${Color_Off}" & sleep 0.5
+echo -e "${BackupDim}Back-up    |${Backup} Dumping remote database to '${dbDir}${backupFile}'${Color_Off}" & sleep 0.5
 ssh $remote "pg_dump -U redmine -h localhost -C --column-inserts" \ >> ${backupFileFullPath}
-echo -e "${RedDim}Back-up    |${WhiteBold} ---Success---" & sleep 1
+echo -e "${BackupDim}Back-up    |${UserBold} ---Success---" & sleep 1
