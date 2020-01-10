@@ -81,6 +81,14 @@
 
 ?. echo "Loadmodule passenger_module /Path_to/mod_passenger.so" | sudo tee -a /etc/httpd/conf.modules.d/00-base.conf
 
+?. CentOS requires python 2.7 but the redminelib module is not available with python 2.7 and requires a higher version.
+Instead use a virtual environment to host the python server application with python 3.6.
+$yum install rh-python36
+$scl enable rh-python36 bash
+$mkdir app
+$cd app
+$python3 -m venv venv
+
 ?. To access a remote local server running on port 5000 from a client, given that a web application is running on port 80 of the 
 remote machine, replace this part in file /etc/httpd/conf/httpd.conf:
 <VirtualHost *:80>
@@ -137,4 +145,5 @@ Notice the lines:
 In this example hello is a flask application.
 Whenever a client requests something like this http://remote_host/hello
 it is being translated to localhost:5000/hello at the remote host. This is a request to remote machine's local server (flask application).
+
 

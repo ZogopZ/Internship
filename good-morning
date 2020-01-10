@@ -10,7 +10,7 @@ findPythonMount=$(mount -l | grep -oe "root@10.10.111.77:/root/python/ on /home/
 # Welcome message.
 echo -e "${OtherDim}Init       |${Other} Good morning to you too! Let's start, shall we?"
 echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
-echo -e "${OtherDim}Init       |${Other} Message of the day:|*** Configure a virtual environment for the flask application development.       ***|"
+echo -e "${OtherDim}Init       |${Other} Message of the day:|*** Request selected issues from remote machine. Fix button's position.          ***|"
 echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
 sectionEnd
 

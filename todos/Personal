@@ -8,3 +8,6 @@ LOW->	to-do:		aliases bash script should be corrected. Root user is being called
 
 VLOW->	to-do:		Fix monthly wage earned using off days pay.
 	current:	startupMail is not calculating properly monthly wage earned, due to some off days being paid.
+
+VLOW->	to-do:		Fix color output for various utility bash files.
+	current:	Various utility bash files are not yet updated with new colors.
