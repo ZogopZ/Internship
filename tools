@@ -20,6 +20,7 @@ UserDim='\e[2;37m'      # White dim
 UserBold='\e[1;37m'     # White bold
 Other='\e[0;90m'   	# Dark gray
 OtherDim='\e[2;90m'	# Dark gray dim
+Ender='\e[0;94m'	# To do
 Error='\e[37;1;41m'     # Red background
 
 trustRemote()
@@ -27,4 +28,9 @@ trustRemote()
 	ssh-keygen -t rsa
 	ssh $remote mkdir -p .ssh
 	cat /home/zois/.ssh/id_rsa.pub | ssh $remote 'cat >> /root/.ssh/authorized_keys'
+}
+
+sectionEnd()
+{
+	printf "${Ender}Section end|" && printf "\u2015%0.s" {1..120} && printf "\n${ColorOff}"
 }

@@ -73,4 +73,3 @@ do
            	echo -e "${UserDim}User       |${User} Invalid selection. Please type y or n to continue...${Color_Off}";;
 	esac
 done
-

@@ -61,5 +61,5 @@ done
 sed  "${messageLine}"'s/\(.*day:|\*\*\* \)\(.*\)\( \*\*\*.*\)/\1'"${newMessage}"'\3/' $pathToHardLink > $pathToTempHardLink
 cat $pathToTempHardLink > $pathToHardLink
 # Use sed to substitue old message with new message in file good-morning
-sed -n -e 27p -e 28p -e 29p $pathToHardLink   # Check if everything looks fine.
+sed -n -e 14p -e 15p -e 16p $pathToHardLink   # Check if everything looks fine.
 rm $pathToTempHardLink

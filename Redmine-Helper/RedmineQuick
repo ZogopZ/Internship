@@ -1,0 +1,19 @@
+# Remove unwanted plugin from Redmine.
+  # Run command below inside redmine's home directory.
+  # $rake redmine:plugins:migrate NAME='plugin name' VERSION=0 RAILS_ENV=production
+  # Then delete specified plugin's directory located in redmine/plugins/
+  # $rm -r plugins/'plugin name directory'
+  # 
+  #
+  # 
+  # 
+  #
+  # 
+
+# 
+  #
+  # 
+  # 
+  #
+  # 
+  # 

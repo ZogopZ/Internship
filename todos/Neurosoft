@@ -1,0 +1,9 @@
+Neurosoft
+
+LOW->	to-do:		whatAmI() function in theme.js should be implemented in such a way that it will be executed once per logged user.
+	current:	whatAmI() function in theme.js is being loaded for each redmine's webpage.	
+____________________________________________________________________________________________________________________________________________
+
+VLOW->	to-do:		apiKey in theme.js should be obtained using an XML or JSON parser.
+	current:	apiKey is extracted by editing the responseText string. XML/JSON parser complains for a mismatch in document's format.
+____________________________________________________________________________________________________________________________________________  
