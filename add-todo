@@ -1,0 +1,88 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Relative path to tools.
+
+
+echo -e "${UserDim}User       |${User} Adding to do."
+todoChoice="invalid"
+while [ $todoChoice == "invalid" ]
+do
+	read -p "$(echo -e "${UserDim}User       |${User}  -What kind of todo would you like to add, Company or Personal (c/p)?:")" todoChoice
+	case $todoChoice in
+		c|co|com|comp|compa|compan|company|cmp)
+			todoChoice="company"
+			;;
+		p|pe|per|pers|perso|person|persona|personal)
+			todoChoice="personal"
+			;;
+		e|ex|exi|exit|ext)
+			todoChoice="exit"
+			;;
+		*)
+			todoChoice="invalid"
+			echo -e "${UserDim}User       |${User}  -Invalid selection. Please type c(company), p(personal) or exit to continue...${ColorOff}"
+			;;
+	esac
+done
+
+todoType="invalid"
+while [ $todoType == "invalid" ]
+do
+	read -p "$(echo -e "${UserDim}User       |${User}  -What type of todo would you like to add (vh/h/m/l/vl)?:")" todoType
+	case $todoType in
+		vh)
+			todoType="VERY-HIGH"
+			;;
+		h)
+			todoType="HIGH"
+			;;
+		m)
+			todoType="MEDIUM"
+			;;
+		l)
+			todoType="LOW"
+			;;
+		vl)
+			todoType="VERY-LOW"
+			;;
+		e|ex|exi|exit|ext)
+			todoType="exit"
+			;;
+		*)
+			todoType="invalid"
+			echo -e "${UserDim}User       |${User}  -Invalid selection. Please type vh(very-high), h(high), m(medium), l(low), vl(very-low) or exit to continue...${ColorOff}"
+
+			;;
+	esac
+done
+
+if [[ $todoChoice == "exit" || $todoType == "exit" ]]; then
+	echo -e "${UserDim}User       |${User}  -Exiting without adding to do."
+else
+	date=$(date "+%d-%m-%Y")
+	pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
+	pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
+	pathToTemp="/home/zois/Documents/classified/Utilities/todos/tempTodos.tmp"
+	read -p "$(echo -e "${UserDim}User       |${User}  -Please add todo text:")" todoText
+	read -p "$(echo -e "${UserDim}User       |${User}  -Please add current functionality:")" currentFunc
+	echo ""
+	echo ""
+	if [ $todoChoice == "company" ]; then
+		if [[ $todoType == "VERY-HIGH" || $todoType == "MEDIUM" || $todoType == "VERY-LOW" ]]; then
+			sed "s/\(""${todoType}"":\)\(.*\)/\1\n\n""${todoType}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
+		else
+			sed "s/\(""${todoType}"":\)\(.*\)/\1\n\n""${todoType}"" ->\t\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
+		fi
+		cat $pathToTemp > $pathToCompany
+		cat $pathToCompany
+	elif [ $todoChoice == "personal" ]; then
+		if [[ $todoType == "VERY-HIGH" || $todoType == "MEDIUM" || $todoType == "VERY-LOW" ]]; then
+			sed "s/\(""${todoType}"":\)\(.*\)/\1\n\n""${todoType}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
+		else
+			sed "s/\(""${todoType}"":\)\(.*\)/\1\n\n""${todoType}"" ->\t\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
+		fi
+		cat $pathToTemp > $pathToPersonal
+		cat $pathToPersonal
+	fi
+	rm $pathToTemp
+fi
+

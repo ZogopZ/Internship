@@ -1,0 +1,32 @@
+Company
+
+
+VERY-HIGH:--
+
+
+HIGH:--
+
+
+MEDIUM:--
+
+MEDIUM ->       to-do:          Python server on the remote machine must be configured as a service to always be running.
+(13-01-2020)    current:        Python server is now being deployed using a virtual environment because CentOS needs python2.7 but redminelib requires later version.
+________________________________________________________________________________________________________________________________________________________________
+
+
+
+LOW:--
+
+
+VERY-LOW:--
+
+VERY-LOW ->     to-do:          whatAmI() function in theme.js should be implemented in such a way that it will be executed once per logged user.
+(10-01-2020)    current:        whatAmI() function in theme.js is being loaded for each redmine's webpage.
+________________________________________________________________________________________________________________________________________________________________
+
+VERY-LOW ->     to-do:          apiKey in theme.js should be obtained using an XML or JSON parser.
+(10-01-2020)    current:        apiKey is extracted by editing the responseText string. XML/JSON parser complains for a mismatch in document's format.
+________________________________________________________________________________________________________________________________________________________________
+
+
+

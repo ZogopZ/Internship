@@ -3,73 +3,75 @@ source /home/zois/Documents/classified/Utilities/tools  # Include tools in this 
 
 
 user="$(sudo users)"
-dbDir="/home/$user/Documents/postgreSQL-backup"
-findRedmineMount=$(mount -l | grep -oe "root@10.10.111.77:/var/www/html/redmine/ on /home/zois/Documents/Redmine_on-server type fuse.sshfs")
-findPythonMount=$(mount -l | grep -oe "root@10.10.111.77:/root/python/ on /home/zois/Documents/Python_on-server type fuse.sshfs")
-
 # Welcome message.
 echo -e "${OtherDim}Init       |${Other} Good morning to you too! Let's start, shall we?"
 echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
-echo -e "${OtherDim}Init       |${Other} Message of the day:|*** Request selected issues from remote machine. Fix button's position.          ***|"
+echo -e "${OtherDim}Init       |${Other} Message of the day:|*** Keep working on requesting the correct issues id from the python server.     ***|"
 echo -e "${OtherDim}Init       |${Other}                    |************************************************************************************|"
 sectionEnd
 
+
 # Check for mounted redmine directory and mount it if necessary.
-echo -e "${UserDim}User       |${User} Redmine mount:${Color_Off}"
+echo -e "${UserDim}User       |${User} Redmine mount:${ColorOff}"
 redmineChoice="invalid"
+findRedmineMount=$(mount -l | grep -oe "root@10.10.111.77:/var/www/html/redmine/ on /home/zois/Documents/Redmine_on-server type fuse.sshfs")
 if [ -z "$findRedmineMount" ]; then
 	echo -e "${WarningDim}Warning!   |${Warning}  -Remote Redmine file system was not found locally."
 	while [ $redmineChoice = "invalid" ]
 	do
-		read -p "$(echo -e "${UserDim}User       |${User}  -Would you like to mount it automatically (y/n)?${Color_Off}")" redmineChoice
+		read -p "$(echo -e "${UserDim}User       |${User}  -Would you like to mount it automatically (y/n)?${ColorOff}")" redmineChoice
 		case "$redmineChoice" in
-		 y|Y )
-			echo -e "${UserDim}User       |${User}  -Mounting remote CentOS Redmine directory locally...${Color_Off}"
-			sudo -u ${user} sshfs ${remote}:/var/www/html/redmine/ /home/zois/Documents/Redmine_on-server
-			;;
-		 n|N )
-			;;
-		 * )
-			redmineChoice="invalid"
-			echo -e "${UserDim}User       |${User}  -Invalid selection. Please type y or n to continue...${Color_Off}"
-			;;
+			y|Y)
+				echo -e "${UserDim}User       |${User}  -Mounting remote CentOS Redmine directory locally...${ColorOff}"
+				sudo -u ${user} sshfs ${remote}:/var/www/html/redmine/ /home/zois/Documents/Redmine_on-server
+				;;
+			n|N)
+				;;
+		 	*)
+				redmineChoice="invalid"
+				echo -e "${UserDim}User       |${User}  -Invalid selection. Please type y or n to continue...${ColorOff}"
+				;;
 		esac
 	done
 elif [ "$findRedmineMount" == "root@10.10.111.77:/var/www/html/redmine/ on /home/zois/Documents/Redmine_on-server type fuse.sshfs" ]; then
-	echo -e "${UserDim}User       |${User}  -Remote CentOs Redmine directory is already mounted locally...${Color_Off}"
+	echo -e "${UserDim}User       |${User}  -Remote CentOs Redmine directory is already mounted locally...${ColorOff}"
 fi
 sectionEnd
 
+
 # Check for mounted python directory and mount it if necessary.
-echo -e "${UserDim}User       |${User} Python mount:${Color_Off}"
+echo -e "${UserDim}User       |${User} Python mount:${ColorOff}"
 pythonChoice="invalid"
+findPythonMount=$(mount -l | grep -oe "root@10.10.111.77:/root/python/ on /home/zois/Documents/Python_on-server type fuse.sshfs")
 if [ -z "$findPythonMount" ]; then
 	echo -e "${WarningDim}Warning!   |${Warning}  -Remote Python file system was not found locally."
 	while [ $pythonChoice = "invalid" ]
 	do
-		read -p "$(echo -e "${UserDim}User       |${User}  -Would you like to mount it automatically (y/n)?${Color_Off}")" pythonChoice
+		read -p "$(echo -e "${UserDim}User       |${User}  -Would you like to mount it automatically (y/n)?${ColorOff}")" pythonChoice
 		case "$pythonChoice" in
-		 y|Y )
-			echo -e "${UserDim}User       |${User}  -Mounting remote CentOS Python directory locally...${Color_Off}"
-			sudo -u ${user} sshfs ${remote}:/root/python/ /home/zois/Documents/Python_on-server
-			;;
-		 n|N )
-			;;
-		* )
-			pythonChoice="invalid"
-			echo -e "${UserDim}User       |${User}  -Invalid selection. Please type y or n to continue...${Color_Off}"
-			;;
+			y|Y)
+				echo -e "${UserDim}User       |${User}  -Mounting remote CentOS Python directory locally...${ColorOff}"
+				sudo -u ${user} sshfs ${remote}:/root/python/ /home/zois/Documents/Python_on-server
+				;;
+			n|N)
+				;;
+			*)
+				pythonChoice="invalid"
+				echo -e "${UserDim}User       |${User}  -Invalid selection. Please type y or n to continue...${ColorOff}"
+				;;
 		esac
 	done
 elif [ "$findPythonMount" == "root@10.10.111.77:/root/python/ on /home/zois/Documents/Python_on-server type fuse.sshfs" ]; then
-	echo -e "${UserDim}User       |${User}  -Remote CentOs Python directory is already mounted locally...${Color_Off}"
+	echo -e "${UserDim}User       |${User}  -Remote CentOs Python directory is already mounted locally...${ColorOff}"
 fi
 sectionEnd
+
 
 # Check for postgreSQL backup directory and create it if it doesn't exist.
 # Give required permissions to user.
 echo -e "${BackupDim}Back-up    |${Backup} Backing up postgreSQL database..."
 echo -e "${BackupDim}Back-up    |${Backup}  -Checking if backup directory for postgreSQL exists"
+dbDir="/home/$user/Documents/postgreSQL-backup"
 if [ -d "$dbDir" ]; then
 	echo -e "${BackupDim}Back-up    |${Backup}  -Directory '${dbDir}' exists!"
 else
@@ -80,13 +82,20 @@ else
 	sudo chown -R ${user}:${user} ${dbDir}
 fi
 
+
 # Generate postgreSQL backup file and dump remote database in it.
-read -p "$(echo -e "${UserDim}User       |${User}  -Please attach a label to the sql backup file...${Color_Off}")" label
+read -p "$(echo -e "${UserDim}User       |${User}  -Please attach a label to the sql backup file...${ColorOff}")" label
 echo -e "${BackupDim}Back-up    |${Backup}  -Creating backup file..."
 backupFile="postgre-(${label})--$(date +"%Y-%m-%d(%T)").sql"
 backupFileFullPath="${dbDir}/${backupFile}"
 touch ${backupFileFullPath}
-echo -e "${BackupDim}Back-up    |${Backup}  -Dumping remote database to '${dbDir}${backupFile}'${Color_Off}"
-printf "${UserDim}User       |${User}  -" && ssh -t $remote "pg_dump -U redmine -h localhost -C --column-inserts" \ >> ${backupFileFullPath} && printf "${Color_Off}"
+echo -e "${BackupDim}Back-up    |${Backup}  -Dumping remote database to '${dbDir}${backupFile}'${ColorOff}"
+printf "${UserDim}User       |${User}  -" && ssh -t $remote "pg_dump -U redmine -h localhost -C --column-inserts" \ >> ${backupFileFullPath} && printf "${ColorOff}"
 echo -e "${BackupDim}Back-up    |${UserBold} ---Success---"
 sectionEnd
+
+
+# Today todos.
+echo -e "${Other}" && cat /home/zois/Documents/classified/Utilities/todos/personal && echo -e "${ColorOff}"
+sectionEnd
+echo -e "${Other}" && cat /home/zois/Documents/classified/Utilities/todos/company && echo -e "${ColorOff}"
