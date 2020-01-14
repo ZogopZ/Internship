@@ -1,0 +1,21 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Relative path to tools.
+
+
+brightnessFilePath="/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness"
+minBrightness=0
+maxBrightness=$(cat /sys/devices/pci0000\:00/0000\:00\:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness)
+if [ $# -eq 0 ];  then
+	echo -e "${UserDim}User       |${User} No arguments supplied. Switching to default brightness.${Color_Off}"
+else
+	re='^[0-9]+$'
+	if ! [[ $1 =~ $re ]]  ||  [[ $1 -lt $minBrightness || $1 -gt maxBrightness ]] ; then
+   		echo -e "${WarningDim}Warning     |${Warning} Invalid parameters supplied. Please use a number between 0(BLACK SCREEN) and 937 (Brightest).${Color_Off}"
+	elif [[ $1 -gt $minBrightness && $1 -lt 10 ]]; then
+		echo -e "${UserDim}User       |${User} Switching brightness to $(($1 * 100)).${Color_Off}"
+		echo $(($1 * 100)) > $brightnessFilePath
+	else
+		echo -e "${UserDim}User       |${User} Switching brightness to $1.${Color_Off}"
+		echo $1 > $brightnessFilePath
+	fi
+fi
