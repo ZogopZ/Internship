@@ -1,0 +1,15 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+
+
+if [[ $1 == "-p" ||  $1 == "--personal" ]]; then
+	label=$(grep personal $pathToPersonal | awk '{print $2}' | sort  | awk 'NR==1{print $1}') && label="${label}$"
+	echo
+	grep -A3 $label $pathToPersonal
+	echo
+elif [[ $1 == "-c" ||  $1 == "--company" ]]; then
+	label=$(grep company $pathToCompany | awk '{print $2}' | sort  | awk 'NR==1{print $1}') && label="${label}$"
+	echo
+	grep -A3 $label $pathToCompany
+	echo
+fi

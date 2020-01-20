@@ -1,24 +1,5 @@
 #!/bin/bash
-
-
-#########################
-#        Colors         #
-#########################
-ColorOff='\e[0m'        # Color text default
-DefaultBd='\e[49m'      # Background color default
-Backup='\e[0;31m'       # Red
-BackupDim='\e[2;31m'    # Red dim
-Internet='\e[0;34m'     # Blue
-InternetDim='\e[2;34m'  # Blue dim
-Warning='\e[0;36m'      # Cyan
-WarningDim='\e[2;36m'   # Cyan dim
-User='\e[0;37m'         # White
-UserDim='\e[2;37m'      # White dim
-UserBold='\e[1;37m'     # White bold
-#DarkGray='\e[0;100m'   # Dark gray
-#DarkGrayDim='\e[2;100m'# Dark gray dim
-Error='\e[37;1;41m'     # Red background
-
+source tools  # Include tools in this file. Absolute path to tools.
 
 # Redmine's remote repository download. https://svn.redmine.org/redmine/branches/
 read -p "$(echo -e "${UserDim}user       |${User} Please paste here the latest (or needed) SVN repository...:")" svnRepo
@@ -29,47 +10,54 @@ oldRepo="/var/www/html/redmine"
 standardRepo="/var/www/html/redmine"
 newRepo=$(ls | grep -e "-stable")
 
-echo -e "${UserDim}User       |${User} Setting up directories and files...${Color_Off}"
-echo -e "${UserDim}User       |${User}  -This will move the downloaded version to path /var/www/html/ and rename it to redmine.new${Color_Off}"
-echo -e "${UserDim}User       |${User}  -This will copy owner properties from previous redmine version to the new one.${Color_Off}"
-echo -e "${UserDim}User       |${User}  -This will copy needed /config/database.yml and /public/themes/neurosoft files from previous version.${Color_Off}"
+echo -e "${UserDim}User       |${User} Setting up directories and files...${ColorOff}"
+echo -e "${UserDim}User       |${User}  -This will move the downloaded version to path /var/www/html/ and rename it to redmine.new${ColorOff}"
+echo -e "${UserDim}User       |${User}  -This will copy owner properties from previous redmine version to the new one.${ColorOff}"
+echo -e "${UserDim}User       |${User}  -This will copy needed /config/database.yml and /public/themes/neurosoft files from previous version.${ColorOff}"
 
 choice="invalid"
 while [ $choice = "invalid" ]
 do
 	read -p "$(echo -e "${UserDim}user	   |${User} Would you like to continue (y/n)? ")" choice
 	case "$choice" in
-		y|Y )  echo -e "${UserDim}User       |${User} A very wise choice...${Color_Off}"
-	   	touch ${newRepo}/revision.${revision}  			# Create a revision file. It's name will be the revision number of redmine's version.
-	   	mv $newRepo /var/www/html/		   		# Move downloaded redmine's version to /var/www/html directory.
-	   	mv /var/www/html/$newRepo /var/www/html/redmine.new	# Rename downloaded version to redmine.new
-	   	newRepo="/var/www/html/redmine.new"
-		cp -r $oldRepo/public/themes/neurosoft $newRepo/public/themes
-		cp $oldRepo/config/database.yml $newRepo/config/database.yml	# Copy previous redmine's database configuration to the new version.
-	   	chown -R --reference $oldRepo $newRepo	# Copy owner right and options from pre-existing redmine version.
-							# Redmine directory and contents must belong to apache:apache
-							# If not administration->settings is not displayed properly.
-	   	echo -e "${BackupDim}Back-up    |${Backup} Backing up previous Redmine version...${Color_Off}"
-	   	read -p "$(echo -e "${BackupDim}Back-up	   |${Backup} Please attach a label to the Redmine backup directory...:")" label
-	   	previousRevisionFile=$(ls $oldRepo | grep -e "revision")
-	   	previousRevisionNumber=$(echo "${previousRevisionFile##*.}")
-	   	oldRepoNewName="${oldRepo}Old\(${label}\).${previousRevisionNumber}"	# Create a new name for the old redmine version with a label.
-	   	mv $oldRepo $oldRepoNewName						# Back it up.
-	   	mv $newRepo $standardRepo						# Switch redmine to new version.
-	   	echo -e "${BackupDim}Back-up    |${Backup} Backup completed in directory ${oldRepoNewName}${Color_Off}"
-	   	echo -e "${UserDim}User       |${User} Performing database migration. Please wait...${Color_Off}"
-		gem="/var/www/html/redmine/Gemfile"		# Set Gemfile's location.
-		rake="/var/www/html/redmine/Rakefile"		# Set Rakefile's location.
-		gem install bundler --install-dir $standardRepo
-		bundle install --gemfile=$gem
-		rake -f $rake generate_secret_token
-		RAILS_ENV=production REDMINE_LANG=en rake -f $rake db:migrate
-		RAILS_ENV=production rake -f $rake redmine:load_default_data
-	   	echo -e "${UserDim}User       |${User} Restarting apache. Please wait...${Color_Off}"
-	   	systemctl restart httpd
-	   	echo -e "${UserDim}User       |${UserBold} ---Success---${Color_Off}";;
-    	n|N ) echo -e "${UserDim}User       |${User} Cancelling...${Color_Off}";;
-      	* )  choice="invalid"
-           	echo -e "${UserDim}User       |${User} Invalid selection. Please type y or n to continue...${Color_Off}";;
+		y|Y)
+			echo -e "${UserDim}User       |${User} A very wise choice...${ColorOff}"
+			touch ${newRepo}/revision.${revision} # Create a revision file. It's name will be the revision number of redmine's version.
+			mv $newRepo /var/www/html/ # Move downloaded redmine's version to /var/www/html directory.
+			mv /var/www/html/$newRepo /var/www/html/redmine.new # Rename downloaded version to redmine.new
+			newRepo="/var/www/html/redmine.new"
+			cp -r $oldRepo/public/themes/neurosoft $newRepo/public/themes
+			cp $oldRepo/config/database.yml $newRepo/config/database.yml # Copy previous redmine's database configuration to the new version.
+			cp $oldRepo/public/403.html $newRepo/public/403.html # Copy previous redmine's 403.html file to the new version.
+			chown -R --reference $oldRepo $newRepo # Copy owner right and options from pre-existing redmine version.
+							       # Redmine directory and contents must belong to apache:apache
+							       # If not administration->settings is not displayed properly.
+			echo -e "${BackupDim}Back-up    |${Backup} Backing up previous Redmine version...${ColorOff}"
+			read -p "$(echo -e "${BackupDim}Back-up	   |${Backup} Please attach a label to the Redmine backup directory...:")" label
+			previousRevisionFile=$(ls $oldRepo | grep -e "revision")
+			previousRevisionNumber=$(echo "${previousRevisionFile##*.}")
+			oldRepoNewName="${oldRepo}Old\(${label}\).${previousRevisionNumber}" # Create a new name for the old redmine version with a label.
+			mv $oldRepo $oldRepoNewName # Back it up.
+			mv $newRepo $standardRepo # Switch redmine to new version.
+			echo -e "${BackupDim}Back-up    |${Backup} Backup completed in directory ${oldRepoNewName}${ColorOff}"
+			echo -e "${UserDim}User       |${User} Performing database migration. Please wait...${ColorOff}"
+			gem="/var/www/html/redmine/Gemfile" # Set Gemfile's location.
+			rake="/var/www/html/redmine/Rakefile" # Set Rakefile's location.
+			gem install bundler --install-dir $standardRepo
+			bundle install --gemfile=$gem
+			rake -f $rake generate_secret_token
+			RAILS_ENV=production REDMINE_LANG=en rake -f $rake db:migrate
+			RAILS_ENV=production rake -f $rake redmine:load_default_data
+			echo -e "${UserDim}User       |${User} Restarting apache. Please wait...${ColorOff}"
+			systemctl restart httpd
+			echo -e "${UserDim}User       |${UserBold} ---Success---${ColorOff}"
+			;;
+		n|N)
+			echo -e "${UserDim}User       |${User} Cancelling...${ColorOff}"
+			;;
+		*)
+			choice="invalid"
+			echo -e "${UserDim}User       |${User} Invalid selection. Please type y or n to continue...${ColorOff}"
+			;;
 	esac
 done

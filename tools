@@ -3,11 +3,14 @@
 
 currentUser="zois"
 remote="root@10.10.111.77"
+pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
+pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
+
 
 #########################
 #        Colors         #
 #########################
-ColorOff='\e[0m'    	# Color text default
+ColorOff='\e[0m'     # Color text default
 DefaultBd='\e[49m'      # Background color default
 Backup='\e[0;31m'       # Red
 BackupDim='\e[2;31m'    # Red dim
@@ -18,10 +21,11 @@ WarningDim='\e[2;36m'   # Cyan dim
 User='\e[0;37m'         # White
 UserDim='\e[2;37m'      # White dim
 UserBold='\e[1;37m'     # White bold
-Other='\e[0;90m'   	# Dark gray
-OtherDim='\e[2;90m'	# Dark gray dim
-Ender='\e[0;94m'	# To do
+Other='\e[0;90m'    # Dark gray
+OtherDim='\e[2;90m' # Dark gray dim
+Ender='\e[0;94m' # To do
 Error='\e[37;1;41m'     # Red background
+Underline='\e[4m' # Underline
 
 trustRemote()
 {

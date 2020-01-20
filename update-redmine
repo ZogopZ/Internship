@@ -1,7 +1,10 @@
 #!/bin/bash
-source /home/zois/Documents/classified/Utility-links/tools
+source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Absolute path to tools.
 
+
+scp tools $remote:
 scp updater $remote:
 ssh $remote ./updater
 wait
+ssh $remote rm tools
 ssh $remote rm updater

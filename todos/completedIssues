@@ -1,0 +1,10 @@
+
+personal 1
+[MEDIUM] ->	to-do:		updater bash script should additionaly copy file redmine/public/403.html to the newer redmine version.
+(10-01-2020)    current:	updater bash script does not copy redmine/public/403.html to the newer redmine version.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 2
+[LOW] ->	to-do:		aliases bash script should be corrected. Root user is being called unnecessarily.
+(10-01-2020)	current:	Upon completion user is changed automatically to root creating chaos and panic.
+________________________________________________________________________________________________________________________________________________________________

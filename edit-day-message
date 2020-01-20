@@ -1,0 +1,64 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+
+
+# Set paths and variables.
+pathToFile="/home/zois/Documents/classified/Utilities/good-morning"
+pathToTempFile="/home/zois/Documents/classified/Utilities/good-morning.tmp"
+
+firstLine="echo -e \"${OtherDim}Init       |${Other} Good morning to you too! Let's start, shall we?${ColorOff}\""
+secondLine="echo -e \"${OtherDim}Init       |${Other}                    |************************************************************************************|${ColorOff}\""
+startLine3="echo -e \"${OtherDim}Init       |${Other} Message of the day:|*** "
+endLine3=" ***|${ColorOff}\"\n"
+startTemplateLine="echo -e \"${OtherDim}Init       |${Other}                    |*** "
+endTemplateLine=" ***|${ColorOff}\"\n"
+finalLine="echo -e \"${OtherDim}Init       |${Other}                    |************************************************************************************|${ColorOff}\""
+
+messageLine=$(grep -n Message $pathToFile | cut -d : -f 1) # Find which line has the previous message to be edited.
+messageLength=0
+
+
+# New message's generation.
+echo -e "${UserDim}User       |${User} Please type tommorow's message and press enter.${ColorOff}"
+read -p "$(echo -e "${UserDim}User       |${User} ${ColorOff}")" newMessage
+messageLength=${#newMessage} # Calculate length of the new message typed.
+messageGenerated="${firstLine}\n${secondLine}\n"
+if [ $messageLength -gt 76 ]; then # New message does not fit in one line. This is a user's choice.
+        linesNeeded=$(($messageLength/76))
+        if [ $(($messageLength%76)) -gt 0 ]; then
+                linesNeeded=$(($linesNeeded+1))
+        fi
+        for ((i=0;i<$linesNeeded;i++))
+        do
+                line=${newMessage:$(($i*76)):76}
+                if [ $i -eq 0 ]; then
+                        messageGenerated="${messageGenerated}${startLine3}"
+                        messageGenerated="${messageGenerated}${line}"
+                        messageGenerated="${messageGenerated}${endLine3}"
+                elif [ $i -eq $(($linesNeeded-1)) ]; then
+                        messageGenerated="${messageGenerated}${startTemplateLine}"
+                        messageGenerated="${messageGenerated}${line}"
+                        lineLength=${#line}
+                        countSpaces=$((76-$lineLength)) # Find out how many space characters need to be appended.
+                        appendSpaces=$(head -c $countSpaces < /dev/zero | tr '\0' '\040') # Create a string with calculated space characters.
+                        messageGenerated="${messageGenerated}${appendSpaces}" # Append spaces string to new message.
+                        messageGenerated="${messageGenerated}${endTemplateLine}"
+                        messageGenerated="${messageGenerated}${finalLine}"
+                else
+                        messageGenerated="${messageGenerated}${startTemplateLine}"
+                        messageGenerated="${messageGenerated}${line}"
+                        messageGenerated="${messageGenerated}${endTemplateLine}"
+                fi
+	done
+elif [ $messageLength -le 76 ]; then # New message fits in one line. This is a user's choice.
+	countSpaces=$((76-$messageLength)) # Find out how many space characters need to be appended.
+	appendSpaces=$(head -c $countSpaces < /dev/zero | tr '\0' '\040') # Create a string with calculated space characters.
+	messageGenerated="${messageGenerated}${startLine3}${newMessage}${appendSpaces}${endLine3}${finalLine}" # Append spaces string to new message.
+fi
+
+
+# Edit good-morning bash script and print result.
+start="# Start \(Do not edit this line!!!\)"
+end="# End \(Do not edit this line!!!\)"
+perl -i -pe "BEGIN{undef $/;} s/$start.*$end/$start\n${messageGenerated}\n$end/smg" good-morning
+awk "/$start/,/$end/" good-morning
