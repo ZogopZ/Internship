@@ -1,5 +1,5 @@
 #!/bin/bash
-source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Absolute path to tools.
+source /home/zois/Documents/Internship/utilities/tools  # Include tools in this file. Absolute path to tools.
 
 
 function chooseTodoFunc()
@@ -102,9 +102,9 @@ function addTodo()
 	else
 		echo -e "${UserDim}User       |${User}   Adding new ${Underline}${todoType}${ColorOff}${User} todo with ${Underline}${todoCriticality}${ColorOff}${User} criticality.${ColorOff}"
 		date=$(date "+%d-%m-%Y")
-		pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
-		pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
-		pathToTemp="/home/zois/Documents/classified/Utilities/todos/tempTodos.tmp"
+		pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+		pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+		pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
 		read -p "$(echo -e "${UserDim}User       |${User}    -Please add todo text:${ColorOff}")" todoText
 		read -p "$(echo -e "${UserDim}User       |${User}    -Please add current functionality:${ColorOff}")" currentFunc
 		if [ $todoType == "company" ]; then
@@ -134,10 +134,10 @@ function addTodo()
 function removeTodo()
 {
 	read -p "$(echo -e "${UserDim}User       |${User}    -Please type issue number to be removed from $todoType todos:${ColorOff}")" issueNumber
-	pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
-	pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
-	pathToCompletedIssues="/home/zois/Documents/classified/Utilities/todos/completedIssues"
-	pathToTemp="/home/zois/Documents/classified/Utilities/todos/tempTodos.tmp"
+	pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+	pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+	pathToCompletedIssues="/home/zois/Documents/Internship/utilities/todos/completedIssues"
+	pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
 	label="$todoType $issueNumber$"
 	if [ $todoType == "company" ]; then
 		grep -A3 "$label" $pathToCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues

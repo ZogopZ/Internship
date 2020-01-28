@@ -4,17 +4,17 @@
 currentUser="zois"
 remote="root@10.10.111.77"
 
-pGood="/home/zois/Documents/classified/Utilities/good-morning.sh"
-pTools="/home/zois/Documents/classified/Utilities/tools"
-pUpdater="/home/zois/Documents/classified/Utilities/updater"
-pSpam="/home/zois/Documents/classified/Utilities/spam-mail.sh"
-pTodoFunctions="/home/zois/Documents/classified/Utilities/todo-functions"
+pGood="/home/zois/Documents/Internship/utilities/good-morning.sh"
+pTools="/home/zois/Documents/Internship/utilities/tools"
+pUpdater="/home/zois/Documents/Internship/utilities/updater"
+pSpam="/home/zois/Documents/Internship/utilities/spam-mail.sh"
+pTodoFunctions="/home/zois/Documents/Internship/utilities/todo-functions"
 
-pPysStarter="/home/zois/Documents/classified/Utilities/start-remote-python-server.sh"
-pPys="/home/zois/Documents/classified/Utilities/pythonServerStarter.sh"
+pPysStarter="/home/zois/Documents/Internship/utilities/start-remote-python-server.sh"
+pPys="/home/zois/Documents/Internship/utilities/pythonServerStarter.sh"
 
-pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
-pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
+pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
 
 
 #########################

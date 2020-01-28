@@ -1,5 +1,5 @@
 #!/bin/bash
-source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+source /home/zois/Documents/Internship/utilities/tools # Include tools in this file. Absolute path to tools.
 
 
 function  displayTodo()
@@ -38,10 +38,10 @@ function  displayTodo()
 
 function removeTodo()
 {
-	pathToPersonal="/home/zois/Documents/classified/Utilities/todos/personal"
-	pathToCompany="/home/zois/Documents/classified/Utilities/todos/company"
-	pathToCompletedIssues="/home/zois/Documents/classified/Utilities/todos/completedIssues"
-	pathToTemp="/home/zois/Documents/classified/Utilities/todos/tempTodos.tmp"
+	pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+	pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+	pathToCompletedIssues="/home/zois/Documents/Internship/utilities/todos/completedIssues"
+	pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
 	if [[ $todoType == "personal" ]]; then
 		grep -A3 "$label" $pathToPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
 		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp

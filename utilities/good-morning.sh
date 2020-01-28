@@ -1,5 +1,5 @@
 #!/bin/bash
-source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Absolute path to tools.
+source /home/zois/Documents/Internship/utilities/tools  # Include tools in this file. Absolute path to tools.
 
 
 user="$(sudo users)"
@@ -7,7 +7,7 @@ user="$(sudo users)"
 # Start (Do not edit this line!!!)
 echo -e "[2;90mInit       |[0;90m Good morning to you too! Let's start, shall we?[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
-echo -e "[2;90mInit       |[0;90m Message of the day:|*** Keep working on disabling the activity tab. redmine.rb lines 81,82-83        ***|[0m"
+echo -e "[2;90mInit       |[0;90m Message of the day:|*** say 1 say                                                                    ***|[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
 # End (Do not edit this line!!!)
 
@@ -105,5 +105,5 @@ sectionEnd
 
 
 # Today todos.
-/home/zois/Documents/classified/Utilities/todo -p
-/home/zois/Documents/classified/Utilities/todo -c
+/home/zois/Documents/Internship/utilities/todo -p
+/home/zois/Documents/Internship/utilities/todo -c

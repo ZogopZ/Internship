@@ -1,9 +1,9 @@
 #!/bin/bash
-source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+source /home/zois/Documents/Internship/utilities/tools # Include tools in this file. Absolute path to tools.
 
 
 # Set paths and variables.
-pathToTempFile="/home/zois/Documents/classified/Utilities/good-morning.tmp"
+pathToTempFile="/home/zois/Documents/Internship/utilities/good-morning.tmp"
 
 firstLine="echo -e \"${OtherDim}Init       |${Other} Good morning to you too! Let's start, shall we?${ColorOff}\""
 secondLine="echo -e \"${OtherDim}Init       |${Other}                    |************************************************************************************|${ColorOff}\""
