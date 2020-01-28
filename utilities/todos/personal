@@ -1,11 +1,16 @@
 Personal
-# Current 25
+# Current 27
 
 
 [VERY-HIGH]:
 
 
 [HIGH]:
+
+personal 26
+[HIGH] ->	to-do:		Disable activity tab using only the redmine plugin.
+(28-01-2020)	current:	Activity tab is now disabled using both a plugin and a patch in redmine.rb file.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 25
 [HIGH] ->	to-do:		Fix edit-day-message to correctly replace good-morning's bash script message.
@@ -14,6 +19,11 @@ ________________________________________________________________________________
 
 
 [MEDIUM]:
+
+personal 27
+[MEDIUM] ->	to-do:		Add support for special characters when adding a todo.
+(28-01-2020)	current:	When using special characters while adding a todo, sed fails to substitute typed string and removes todo file's contents.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 24
 [MEDIUM] ->	to-do:		Control read output with left and right arrows in edit-todo bash script.
