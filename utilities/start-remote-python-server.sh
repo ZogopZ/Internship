@@ -2,9 +2,9 @@
 source /home/zois/Documents/classified/Utilities/tools  # Include tools in this file. Absolute path to tools.
 
 
-scp tools $remote:
-scp updater $remote:
-ssh $remote ./updater
+scp $pTools $remote:
+scp $pPys $remote:
+ssh $remote ./pythonServerStarter.sh
 wait
 ssh $remote rm tools
-ssh $remote rm updater
+ssh $remote rm pythonServerStarter.sh

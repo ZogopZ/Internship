@@ -68,19 +68,19 @@ function chooseTodoCriticality()
 	do
 		read -p "$(echo -e "${UserDim}User       |${User}    -What type of todo would you like to add Very-High/High/Medium/Low/Very-Low (vh/h/m/l/vl)?:${ColorOff}")" todoCriticality
 		case $todoCriticality in
-			vh)
+			vh|5)
 				todoCriticality="VERY-HIGH"
 				;;
-			h)
+			h|4)
 				todoCriticality="HIGH"
 				;;
-			m)
+			m|3)
 				todoCriticality="MEDIUM"
 				;;
-			l)
+			l|2)
 				todoCriticality="LOW"
 				;;
-			vl)
+			vl|1)
 				todoCriticality="VERY-LOW"
 				;;
 			e|ex|exi|exit|ext)
@@ -108,35 +108,26 @@ function addTodo()
 		read -p "$(echo -e "${UserDim}User       |${User}    -Please add todo text:${ColorOff}")" todoText
 		read -p "$(echo -e "${UserDim}User       |${User}    -Please add current functionality:${ColorOff}")" currentFunc
 		if [ $todoType == "company" ]; then
-			increasingNumber=$(($(grep -e "# Current" $pathToCompany | grep -Eo [0-9]+)+1))
+			increasingNumber=$(($(grep -e "^# Current" $pathToCompany | grep -Eo [0-9]+)+1))
 			label="company $increasingNumber"
-			if [[ $todoCriticality == "VERY-HIGH" || $todoCriticality == "MEDIUM" || $todoCriticality == "VERY-LOW" ]]; then
-				todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
-				sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
-			elif [[ $todoCriticality == "HIGH" || $todoCriticality == "LOW" ]]; then
-				todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
-				sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
-			fi
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
 			cp $pathToTemp $pathToCompany
-			sed "s/\(# Current \)\([0-9]\)/\1${increasingNumber}/" $pathToCompany > $pathToTemp
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToCompany > $pathToTemp
 			cp $pathToTemp $pathToCompany
 			cat $pathToCompany
 		elif [ $todoType == "personal" ]; then
-			increasingNumber=$(($(grep -e "# Current" $pathToPersonal | grep -Eo [0-9]+)+1))
+			increasingNumber=$(($(grep -e "^# Current" $pathToPersonal | grep -Eo [0-9]+)+1))
 			label="personal $increasingNumber"
-			if [[ $todoCriticality == "VERY-HIGH" || $todoCriticality == "MEDIUM" || $todoCriticality == "VERY-LOW" ]]; then
-				todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
-				sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
-			elif [[ $todoCriticality == "HIGH" || $todoCriticality == "LOW" ]]; then
-				todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
-				sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
-			fi
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
 			cp $pathToTemp $pathToPersonal
-			sed "s/\(# Current \)\([0-9]\)/\1${increasingNumber}/" $pathToPersonal > $pathToTemp
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToPersonal > $pathToTemp
 			cp $pathToTemp $pathToPersonal
 			cat $pathToPersonal
 		fi
 		rm $pathToTemp
+		echo -e "${UserDim}User       |${User}    -Dummy succefully added.${ColorOff}" # TODO
 	fi
 }
 
@@ -157,6 +148,7 @@ function removeTodo()
 		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp
 		cp $pathToTemp $pathToPersonal
 	fi
+	echo -e "${UserDim}User       |${User}    -Dummy succefully removed.${ColorOff}" # TODO
 	rm $pathToTemp
 }
 

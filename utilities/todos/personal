@@ -1,0 +1,35 @@
+Personal
+# Current 25
+
+
+[VERY-HIGH]:
+
+
+[HIGH]:
+
+personal 25
+[HIGH] ->	to-do:		Fix edit-day-message to correctly replace good-morning's bash script message.
+(24-01-2020)	current:	Something is wrong when replacing with a large day-message in edit-day-message bash script
+________________________________________________________________________________________________________________________________________________________________
+
+
+[MEDIUM]:
+
+personal 24
+[MEDIUM] ->	to-do:		Control read output with left and right arrows in edit-todo bash script.
+(24-01-2020)	current:	Pressing right or left arrow in read mode, prints characters instead of actually moving the cursor.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 23
+[MEDIUM] ->	to-do:		Merge todo and edit-todo bash scripts together. No need for seperate files. $todo will be the same as $edit-todo.
+(24-01-2020)	current:	todo and edit-todo bash scripts are two different files.
+________________________________________________________________________________________________________________________________________________________________
+
+
+
+[LOW]:
+
+
+
+[VERY-LOW]:
+

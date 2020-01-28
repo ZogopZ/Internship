@@ -7,10 +7,17 @@ user="$(sudo users)"
 # Start (Do not edit this line!!!)
 echo -e "[2;90mInit       |[0;90m Good morning to you too! Let's start, shall we?[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
-echo -e "[2;90mInit       |[0;90m Message of the day:|*** You are close to resolving automated python server script using the  va ***|[0m"
-echo -e "[2;90mInit       |[0;90m                    |*** riable.                                                                      ***|[0m"
+echo -e "[2;90mInit       |[0;90m Message of the day:|*** Keep working on disabling the activity tab. redmine.rb lines 81,82-83        ***|[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
 # End (Do not edit this line!!!)
+
+
+# Flag -m existence.
+if [[ $1 == "-m" ]]; then
+	ttyCurrent=$(tty)
+	echo -e "${UserDim}User       |${User} Starting mail spammer...${ColorOff}"
+	echo $("$pSpam" > /dev/pts/0 2>&1)
+fi
 
 
 # Check for mounted redmine directory and mount it if necessary.

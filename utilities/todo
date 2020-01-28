@@ -1,0 +1,62 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+source $pTodoFunctions
+
+
+# Flag parsing.
+while getopts "pcCnr" option; do
+	case "${option}" in
+		p) optionsArray+=("$option") ;;
+                c) optionsArray+=("$option") ;;
+                C) optionsArray+=("$option") ;;
+                n) optionsArray+=("$option") ;;
+                r) optionsArray+=("$option") ;;
+        esac
+done
+shift $((OPTIND-1))
+
+if [[ ${#optionsArray[@]} == 1 ]]; then
+	if [[ ${optionsArray[0]} == "p" || ${optionsArray[0]} == "c" ]]; then
+		displayTodo
+	fi
+elif [[ ${#optionsArray[@]} == 2 ]]; then
+	if [[ "${optionsArray[@]}" =~ "p" ]] && [[ "${optionsArray[@]}" =~ "C" ]]; then
+		todoType="personal"
+		removeTodo
+	elif [[ "${optionsArray[@]}" =~ "C" ]] && [[ "${optionsArray[@]}" =~ "C" ]]; then
+		todoType="company"
+		removeTodo
+	fi
+fi
+
+
+# Display or remove oldest personal or company todo.
+#if [[ $1 == "-p" ||  $1 == "--personal" ]]; then # Option -p or --personal displays the oldest personal todo to the user.
+#	label=$(grep personal $pathToPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select the oldest one, by sorting their issue number. Add $ to the label to indicate end of line.
+#	if ! [ $label == "$" ]; then # If the label is not empty.
+#		label="personal ${label}" # Prepend "personal " to label, to correctly grep the issue.
+#		echo
+#		grep -A3 "$label" $pathToPersonal # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+#		echo
+ #       else
+   #             echo -e "${UserDim}User       |${User}   Nothing personal to do...${ColorOff}" # No personal todos found.
+  #      fi
+#	if [[ $2 == "--completed" ]]; then
+#		todoType="personal"
+#		removeTodo
+#	fi
+#elif [[ $1 == "-c" ||  $1 == "--company" ]]; then # Option -c or --company displays the oldest company todo to the user.
+#	label=$(grep company $pathToCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
+#	if ! [ $label == "$" ]; then # If the label is not empty.
+#		label="company ${label}" # Prepend "company " to label, to correctly grep the issue.
+#		echo
+#		grep -A3 "$label" $pathToCompany # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+#		echo
+#	else
+#		echo -e "${UserDim}User       |${User}   Nothing to do for company...${ColorOff}" # No company todos found.
+#	fi
+#	if [[ $2 == "--completed" ]]; then
+#		todoType="company"
+#		removeTodo
+#	fi
+#fi

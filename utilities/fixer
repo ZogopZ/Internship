@@ -1,0 +1,14 @@
+#!/bin/bash
+source /home/zois/Documents/classified/Utilities/tools # Include tools in this file. Absolute path to tools.
+
+
+while getopts "pcCnr" option; do
+	case "${option}" in
+		*) optionsArray+=("$option");;
+	esac
+done
+shift $((OPTIND-1))
+
+for val in "${optionsArray[@]}"; do
+    echo " - $val"
+done

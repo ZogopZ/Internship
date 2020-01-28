@@ -10,19 +10,19 @@ echo -e "${UserDim}User       |${User} Type ${Underline}new${ColorOff}${User} to
 # Create new alias, remove an already existing one or exit.
 while [ $choice = "invalid" ]
 do
-	read -p "$(echo -e "${UserDim}User       |${User} What would you like to do (new/rm/exit)?: ${ColorOff}")" choice
+	read -ep "$(echo -e "${UserDim}User       |${User} What would you like to do (new/rm/exit)?: ${ColorOff}")" choice
 	case "$choice" in
 		new)
 			echo -e "${UserDim}User       |${User}   Adding new alias...${ColorOff}"
-			read -p "$(echo -e "${UserDim}User       |${User}     -Please type your alias name... This name will be later used to call your created shortcuts:${ColorOff}")" aliasName
-			read -p "$(echo -e "${UserDim}User       |${User}     -Please type your command to be aliased (copied to ~/.bashrc)...:${ColorOff}")" aliasCommand
+			read -ep "$(echo -e "${UserDim}User       |${User}     -Please type your alias name... This name will be later used to call your created shortcuts:${ColorOff}")" aliasName
+			read -ep "$(echo -e "${UserDim}User       |${User}     -Please type your command to be aliased (copied to ~/.bashrc)...:${ColorOff}")" aliasCommand
 			echo "alias ${aliasName}=\"${aliasCommand}\"" >> ~/.bashrc
 			exec bash # Restart bash.
 			;;
 		rm)
 			echo -e "${UserDim}User       |${User}   Alias removal...${ColorOff}"
 			echo -e "${WarningDim}Warning    |${Warning}     -This will only remove alias from file ~/.bashrc and then restart bash. It will not delete any source files.${Color_Off}"
-			read -p "$(echo -e "${UserDim}User       |${User}     -Please type alias name to be removed:${ColorOff}")" aliasName
+			read -ep "$(echo -e "${UserDim}User       |${User}     -Please type alias name to be removed:${ColorOff}")" aliasName
 			sed -i "/alias ${aliasName}=/c\\" ~/.bashrc # Replace line where aliasName was found with empty line. Do this as current user (will not work as root).
 			exec bash # Restart bash.
 			;;
