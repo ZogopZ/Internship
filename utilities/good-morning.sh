@@ -7,7 +7,8 @@ user="$(sudo users)"
 # Start (Do not edit this line!!!)
 echo -e "[2;90mInit       |[0;90m Good morning to you too! Let's start, shall we?[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
-echo -e "[2;90mInit       |[0;90m Message of the day:|*** say 1 say                                                                    ***|[0m"
+echo -e "[2;90mInit       |[0;90m Message of the day:|*** Keep populating docx tables with values. Should web vulnerabilities tracker  ***|[0m"
+echo -e "[2;90mInit       |[0;90m                    |*** have a workflow? Ask!                                                        ***|[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
 # End (Do not edit this line!!!)
 

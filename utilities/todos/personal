@@ -1,5 +1,5 @@
 Personal
-# Current 27
+# Current 31
 
 
 [VERY-HIGH]:
@@ -20,6 +20,11 @@ ________________________________________________________________________________
 
 [MEDIUM]:
 
+personal 29
+[MEDIUM] ->	to-do:		Implement remove todo functionality without completing and adding to completedIssues file.
+(28-01-2020)	current:	There is no such function yet.
+________________________________________________________________________________________________________________________________________________________________
+
 personal 27
 [MEDIUM] ->	to-do:		Add support for special characters when adding a todo.
 (28-01-2020)	current:	When using special characters while adding a todo, sed fails to substitute typed string and removes todo file's contents.
@@ -38,6 +43,21 @@ ________________________________________________________________________________
 
 
 [LOW]:
+
+personal 31
+[LOW] ->	to-do:		Integrate spam-mail.sh bash script in good-morning.sh bash script.
+(29-01-2020)	current:	bash good-morning.sh does not automatically send mails.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 30
+[LOW] ->	to-do:		Create bash script to control volume.
+(29-01-2020)	current:	There is no such bash script yet.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 28
+[LOW] ->	to-do:		Rename todo's bash script function removeTodo to completeTodo.
+(28-01-2020)	current:	removeTodo function in todo bash script is wrongly named, since it appends todos to file completedIssues.
+________________________________________________________________________________________________________________________________________________________________
 
 
 
