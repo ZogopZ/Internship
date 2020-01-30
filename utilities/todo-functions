@@ -5,33 +5,33 @@ source /home/zois/Documents/Internship/utilities/tools # Include tools in this f
 function  displayTodo()
 {
 	if [[ ${optionsArray[0]} == "p" ]]; then # Option -p displays the oldest personal todo to the user.
-        	label=$(grep personal $pathToPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select$
-	        if ! [ $label == "$" ]; then # If the label is not empty.
-	                label="personal ${label}" # Prepend "personal " to label, to correctly grep the issue.
-	                echo
-	                grep -A3 "$label" $pathToPersonal # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
-	                echo
-	        else
-	                echo -e "${UserDim}User       |${User}   Nothing personal to do...${ColorOff}" # No personal todos found.
-	        fi
-        	if [[ $2 == "--completed" ]]; then
-               		todoType="personal"
-	                removeTodo
-	        fi
+		label=$(grep personal $pathToPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select$
+		if ! [ $label == "$" ]; then # If the label is not empty.
+			label="personal ${label}" # Prepend "personal " to label, to correctly grep the issue.
+			echo
+			grep -A3 "$label" $pathToPersonal # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+			echo
+		else
+			echo -e "${UserDim}User       |${User}   Nothing personal to do...${ColorOff}" # No personal todos found.
+		fi
+		if [[ $2 == "--completed" ]]; then
+	       		todoType="personal"
+			removeTodo
+		fi
 	elif [[ ${optionsArray[0]} == "c" ]]; then # Option -c displays the oldest company todo to the user.
-	        label=$(grep company $pathToCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
-	        if ! [ $label == "$" ]; then # If the label is not empty.
-	                label="company ${label}" # Prepend "company " to label, to correctly grep the issue.
-	                echo
-	                grep -A3 "$label" $pathToCompany # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
-	                echo
-	        else
-	                echo -e "${UserDim}User       |${User}   Nothing to do for company...${ColorOff}" # No company todos found.
-	        fi
-	        if [[ $2 == "--completed" ]]; then
-	                todoType="company"
-	                removeTodo
-	        fi
+		label=$(grep company $pathToCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
+		if ! [ $label == "$" ]; then # If the label is not empty.
+			label="company ${label}" # Prepend "company " to label, to correctly grep the issue.
+			echo
+			grep -A3 "$label" $pathToCompany # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+			echo
+		else
+			echo -e "${UserDim}User       |${User}   Nothing to do for company...${ColorOff}" # No company todos found.
+		fi
+		if [[ $2 == "--completed" ]]; then
+			todoType="company"
+			removeTodo
+		fi
 	fi
 }
 
@@ -46,13 +46,46 @@ function removeTodo()
 		grep -A3 "$label" $pathToPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
 		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp
 		cp $pathToTemp $pathToPersonal
-        elif [[ $todoType == "company" ]]; then
-                grep -A3 "$label" $pathToCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
-                awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToCompany > $pathToTemp
-                cp $pathToTemp $pathToCompany
+	elif [[ $todoType == "company" ]]; then
+		grep -A3 "$label" $pathToCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
+		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToCompany > $pathToTemp
+		cp $pathToTemp $pathToCompany
 
 	fi
 	echo -e "${UserDim}User       |${User}    -Dummy succefully removed.${ColorOff}" # TODO
 	rm $pathToTemp
 }
 
+function addTodo()
+{
+
+	echo -e "${UserDim}User       |${User}   Adding new ${Underline}${todoType}${ColorOff}${User} todo with ${Underline}${todoCriticality}${ColorOf$
+		date=$(date "+%d-%m-%Y")
+		pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+		pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+		pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
+		read -p "$(echo -e "${UserDim}User       |${User}    -Please add todo text:${ColorOff}")" todoText
+		read -p "$(echo -e "${UserDim}User       |${User}    -Please add current functionality:${ColorOff}")" currentFunc
+		if [ $todoType == "company" ]; then
+			increasingNumber=$(($(grep -e "^# Current" $pathToCompany | grep -Eo [0-9]+)+1))
+			label="company $increasingNumber"
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY$
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurre$
+			cp $pathToTemp $pathToCompany
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToCompany > $pathToTemp
+			cp $pathToTemp $pathToCompany
+			cat $pathToCompany
+		elif [ $todoType == "personal" ]; then
+			increasingNumber=$(($(grep -e "^# Current" $pathToPersonal | grep -Eo [0-9]+)+1))
+			label="personal $increasingNumber"
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY$
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurre$
+			cp $pathToTemp $pathToPersonal
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToPersonal > $pathToTemp
+			cp $pathToTemp $pathToPersonal
+			cat $pathToPersonal
+		fi
+		rm $pathToTemp
+		echo -e "${UserDim}User       |${User}    -Dummy succefully added.${ColorOff}" # TODO
+	fi
+}

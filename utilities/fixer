@@ -2,13 +2,52 @@
 source /home/zois/Documents/Internship/utilities/tools # Include tools in this file. Absolute path to tools.
 
 
-while getopts "pcCnr" option; do
-	case "${option}" in
-		*) optionsArray+=("$option");;
-	esac
-done
-shift $((OPTIND-1))
+while [ $# -gt 0 ] ; do
+	case $1 in
+		-n | --new-todo) optionsArray+=("$1") ;;
+		-r | --remove-todo) optionsArray+=("$1") ;;
+		-C | --complete-todo) optionsArray+=("$1") ;;
 
-for val in "${optionsArray[@]}"; do
-    echo " - $val"
+		-p | --personal) optionsArray+=("$1") ;;
+		-c | --company) optionsArray+=("$1") ;;
+
+		-vh | --very-high) optionsArray+=("$1") ;;
+		-h | --high) optionsArray+=("$1") ;;
+		-m | --medium) optionsArray+=("$1") ;;
+		-l | --low) optionsArray+=("$1") ;;
+		-vl | --very-low) optionsArray+=("$1") ;;
+
+		*) optionsArray+=("$options") ;;
+	esac
+	shift
 done
+
+if [[ ${#optionsArray[@]} == 1 ]]; then
+	echo "${optionsArray[0]}"
+        if [[ ${optionsArray[0]} == "-p" || ${optionsArray[0]} == "--personal" ]] || [[ ${optionsArray[0]} == "-c" || ${optionsArray[0]} == "--company" ]]; then
+                echo "Displays personal or company todo"
+		#displayTodo
+	else
+		echo -e "${Error}Error      | Invalid parameters...${DefaultBd}${ColorOff}"
+        fi
+elif [[ ${#optionsArray[@]} == 2 ]]; then
+        if [[ "${optionsArray[@]}" =~ "-p" || "${optionsArray[@]}" =~ "--personal" ]] && [[ "${optionsArray[@]}" =~ "C" || "${optionsArray[@]}" =~ "--complete-todo" ]]; then
+		echo "Completes personal todo"
+                #todoType="personal"
+                #removeTodo
+        elif [[ "${optionsArray[@]}" =~ "C" || "${optionsArray[@]}" =~ "--company" ]] && [[ "${optionsArray[@]}" =~ "C" || "${optionsArray[@]}" =~ "--complete-todo" ]]; then
+		echo "Completes company todo"
+                #todoType="company"
+                #removeTodo
+	fi
+elif [[ ${#optionsArray[@]} == 3 ]]; then
+        if [[ "${optionsArray[@]}" =~ "-vh" || "${optionsArray[@]}" =~ "--very-high" ]] || [[ "${optionsArray[@]}" =~ "-h" || "${optionsArray[@]}" =~ "--high" ]] || \
+	   [[ "${optionsArray[@]}" =~ "-m" || "${optionsArray[@]}" =~ "--medium" ]] || [[ "${optionsArray[@]}" =~ "-l" || "${optionsArray[@]}" =~ "--very-low" ]] || \
+	   [[ "${optionsArray[@]}" =~ "-vl" || "${optionsArray[@]}" =~ "--very-low" ]]; then
+		#foundArray=$(${optionsArray[@]})
+		todoCriticality="${optionsArray[@]:1}"  # Given that optionsArray is a three element array, 
+		echo $todoCriticality
+	else
+		echo "something's wrong."
+	fi
+fi

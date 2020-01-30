@@ -1,5 +1,5 @@
 Personal
-# Current 31
+# Current 32
 
 
 [VERY-HIGH]:
@@ -19,6 +19,11 @@ ________________________________________________________________________________
 
 
 [MEDIUM]:
+
+personal 32
+[MEDIUM] ->	to-do:		Move todos directory in assets directory.
+(30-01-2020)	current:	Directory todos exists in utilities directory.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 29
 [MEDIUM] ->	to-do:		Implement remove todo functionality without completing and adding to completedIssues file.

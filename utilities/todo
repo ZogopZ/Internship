@@ -27,7 +27,8 @@ elif [[ ${#optionsArray[@]} == 2 ]]; then
 		todoType="company"
 		removeTodo
 	elif [[ "${optionsArray[@]}" =~ "n" ]] && [[ "${optionsArray[@]}" =~ "p" ]]; then
-		: # todo add new personal todo.
+		todoType="personal"
+		addTodo
         elif [[ "${optionsArray[@]}" =~ "n" ]] && [[ "${optionsArray[@]}" =~ "c" ]]; then
                 : # todo add new company todo.
         elif [[ "${optionsArray[@]}" =~ "r" ]] && [[ "${optionsArray[@]}" =~ "p" ]]; then

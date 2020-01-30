@@ -130,14 +130,20 @@ def send_email(zois_email):
     server.starttls()  # Puts connection to SMTP server in TLS mode
     server.ehlo()
     server.login('zwisss@hotmail.com', getpass.getpass("Password: "))  # Hide password typing from screen.
+
     server.sendmail(msg['From'], "zwisss@hotmail.com", msg.as_string())  # Send the message via the server.
     print("\nMail to maself was successfully sent.")
+
     server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
     print("Mail to Porportheon was successfully sent.")
-    server.sendmail(msg['From'], "Marianna.Leventi@ruhr-uni-bochum.de", msg.as_string())
-    print("Mail to Marianna, was successfully sent.")
+
     server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
     print("Mail to Taso, was successfully sent.")
+
+    msg['Subject'] = '[Zizizi] Regarding montly salary.'
+    server.sendmail(msg['From'], "marianna.leventi@fil.lu.se", msg.as_string())
+    print("Mail to PhD student Marianna, was successfully sent.")
+
     msg['Subject'] = "Σχετικά με τον μηνιαίο μισθό."
     server.sendmail(msg['From'], "ilias.Anagnostopoulos@intrasoft-intl.com", msg.as_string())
     print("Mail to Ilia, was successfully sent.")
