@@ -1,0 +1,41 @@
+import glob
+import os
+import shutil
+import jinja2
+from docx import Document
+from docx.shared import Mm
+from docxtpl import InlineImage, DocxTemplate
+from docxcompose.composer import Composer
+
+ptd_generated_files = '/home/zois/PycharmProjects/Export/assets/generated_files/'
+ptd_template = '/home/zois/PycharmProjects/Export/assets/templates/'
+ptd_images = '/home/zois/PycharmProjects/Export/assets/templates/images/'
+fn_template = 'template.docx'
+ptf_template = ptd_template + fn_template
+
+files = glob.glob(ptd_generated_files + '*')
+for f in files:
+    os.remove(f)
+
+template = DocxTemplate(ptf_template)
+master = Document()
+master.save(ptd_generated_files + 'master.docx')
+master_composer = None
+for i in range(1, 5):
+    my_context = dict()
+    for j in range(1, 21):
+        my_context['tag' + str(j)] = InlineImage(template, ptd_images + str(j) + '.png', width=Mm(12), height=Mm(7))
+    jinja_env = jinja2.Environment(autoescape=True)
+    template.render(my_context, jinja_env)
+    template.add_page_break()
+    template.save(ptd_generated_files + str(i) + '.docx')
+    document = Document(ptd_generated_files + str(i) + '.docx')
+    if i == 1:
+        shutil.copy(ptd_generated_files + str(i) + '.docx', ptd_generated_files + 'master.docx')
+        master = Document(ptd_generated_files + 'master.docx')
+        master_composer = Composer(master)
+    else:
+        master_composer.append(document)
+    os.remove(ptd_generated_files + str(i) + '.docx')
+
+master_composer.save(ptd_generated_files + 'master.docx')
