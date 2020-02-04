@@ -137,9 +137,6 @@ def send_email(zois_email):
     server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
     print("Mail to Porportheon was successfully sent.")
 
-    server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
-    print("Mail to Taso, was successfully sent.")
-
     msg['Subject'] = '[Zizizi] Regarding montly salary.'
     server.sendmail(msg['From'], "marianna.leventi@fil.lu.se", msg.as_string())
     print("Mail to PhD student Marianna, was successfully sent.")
@@ -147,6 +144,9 @@ def send_email(zois_email):
     msg['Subject'] = "Σχετικά με τον μηνιαίο μισθό."
     server.sendmail(msg['From'], "ilias.Anagnostopoulos@intrasoft-intl.com", msg.as_string())
     print("Mail to Ilia, was successfully sent.")
+
+    server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
+    print("Mail to Taso, was successfully sent.")
 
     server.quit()
 
