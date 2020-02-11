@@ -4,18 +4,18 @@
 currentUser="zois"
 remote="root@10.10.111.77"
 
-pGood="/home/zois/Documents/Internship/utilities/good-morning.sh"
-pTools="/home/zois/Documents/Internship/utilities/tools"
-pUpdater="/home/zois/Documents/Internship/utilities/updater"
-pSpam="/home/zois/Documents/Internship/utilities/spam-mail.sh"
-pTodoFunctions="/home/zois/Documents/Internship/utilities/todo-functions"
+ptfGood="/home/zois/Documents/Internship/utilities/good-morning.sh"
+ptfTools="/home/zois/Documents/Internship/utilities/tools"
+ptfUpdater="/home/zois/Documents/Internship/utilities/updater"
+ptfSpam="/home/zois/Documents/Internship/utilities/spam-mail.sh"
+ptfTodoFunctions="/home/zois/Documents/Internship/utilities/todo-functions"
 
-pPysStarter="/home/zois/Documents/Internship/utilities/start-remote-python-server.sh"
-pPys="/home/zois/Documents/Internship/utilities/pythonServerStarter.sh"
+ptfPysStarter="/home/zois/Documents/Internship/utilities/start-remote-python-server.sh"
+ptfPys="/home/zois/Documents/Internship/utilities/pythonServerStarter.sh"
 
-pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
-pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
-
+ptfPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+ptfCompany="/home/zois/Documents/Internship/utilities/todos/company"
+ptdTodos="/home/zois/Documents/Internship/utilities/todos/"
 
 #########################
 #        Colors         #

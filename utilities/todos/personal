@@ -1,11 +1,16 @@
 Personal
-# Current 32
+# Current 35
 
 
 [VERY-HIGH]:
 
 
 [HIGH]:
+
+personal 34
+[HIGH] ->	to-do:		Merge ready branches to master in git.
+(10-02-2020)	current:	There are not any merged branches in master and thus nothing is visible unless switching to branch.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 26
 [HIGH] ->	to-do:		Disable activity tab using only the redmine plugin.
@@ -48,6 +53,16 @@ ________________________________________________________________________________
 
 
 [LOW]:
+
+personal 35
+[LOW] ->	to-do:		Rename 'todo' to 'todo.sh'.
+(11-02-2020)	current:	'todo' bash script does not follow correct naming convention.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 33
+[LOW] ->	to-do:		Add release info to a specific spam-mail
+(10-02-2020)	current:	There is no such functionaliyet
+________________________________________________________________________________________________________________________________________________________________
 
 personal 31
 [LOW] ->	to-do:		Integrate spam-mail.sh bash script in good-morning.sh bash script.

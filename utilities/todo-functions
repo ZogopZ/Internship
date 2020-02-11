@@ -5,16 +5,16 @@ source /home/zois/Documents/Internship/utilities/tools # Include tools in this f
 function  displayTodo()
 {
 	if [[ $todoType == "personal" ]]; then # Displays the oldest personal todo to the user.
-		label=$(grep personal $pathToPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select the one with the smallest issue number.
+		label=$(grep personal $ptfPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select the one with the smallest issue number.
 		label="personal ${label}" # Prepend "personal " to label, to correctly grep the issue.
 		echo > $ttyCurrent 2>&1
-		grep -A3 "$label" $pathToPersonal > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+		grep -A3 "$label" $ptfPersonal > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
 		echo > $ttyCurrent 2>&1
 	elif [[ $todoType == "company" ]]; then # Displays the oldest company todo to the user.
-		label=$(grep company $pathToCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
+		label=$(grep company $ptfCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
 		label="company ${label}" # Prepend "company " to label, to correctly grep the issue.
 		echo > $ttyCurrent 2>&1
-		grep -A3 "$label" $pathToCompany > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
+		grep -A3 "$label" $ptfCompany > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
 		echo > $ttyCurrent 2>&1
 	fi
 	if [[ $label == "personal $" ]] || [[ $label == "company $" ]]; then # Could not grep anything from todo files, because there are no issues left.
@@ -25,10 +25,6 @@ function  displayTodo()
 
 function completeTodo()
 {
-	pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
-	pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
-	pathToCompletedIssues="/home/zois/Documents/Internship/utilities/todos/completedIssues"
-	pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
 	if [[ $todoType == "personal" ]]; then
 		grep -A3 "$label" $pathToPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
 		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp
@@ -43,7 +39,7 @@ function completeTodo()
 	rm $pathToTemp
 }
 
-function addTodo()
+function newTodo()
 {
 	echo -e "${UserDim}User       |${User}   Adding new ${Underline}${todoType}${ColorOff}${User} todo with ${Underline}${todoCriticality}${ColorOff}${User} criticality.${ColorOff}"
 	date=$(date "+%d-%m-%Y")
@@ -73,5 +69,16 @@ function addTodo()
 	fi
 	rm $pathToTemp
 	echo -e "${UserDim}User       |${User}    -Dummy succefully added.${ColorOff}" # TODO
+}
+
+function removeTodo()
+{
+	label="$todoType"" ""$labelNo"
+	ptfTemp="$ptdTodos""todos.tmp"
+	ptfToEdit="$ptdTodos""$todoType"
+	ptfBackup="$ptfToEdit"".bak"
+	awk "/$label/{getline;getline;getline;getline;next} 1" $ptfToEdit > $ptfTemp
+	cp $ptfTemp $ptfToEdit
+	rm $ptfTemp
 }
 

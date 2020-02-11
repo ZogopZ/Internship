@@ -1,3 +1,4 @@
 #/usr/bin/env bash
 
-complete -W "--personal --company" todo --
+complete -W "" fix 
+complete -W "--new --remove --complete --personal --company" fix -
