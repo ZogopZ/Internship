@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+currentUser="zois"
+remote="root@10.10.111.77"
+
+ptfGood="/home/zois/Documents/Internship/utilities/good-morning.sh"
+ptfTools="/home/zois/Documents/Internship/utilities/tools"
+ptfUpdater="/home/zois/Documents/Internship/utilities/updater"
+ptfSpam="/home/zois/Documents/Internship/utilities/spam-mail.sh"
+ptfTodoFunctions="/home/zois/Documents/Internship/utilities/todo-functions"
+
+ptfPysStarter="/home/zois/Documents/Internship/utilities/start-remote-python-server.sh"
+ptfPys="/home/zois/Documents/Internship/utilities/pythonServerStarter.sh"
+
+ptfPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+ptfCompany="/home/zois/Documents/Internship/utilities/todos/company"
+ptdTodos="/home/zois/Documents/Internship/utilities/todos/"
+
+#########################
+#        Colors         #
+#########################
+ColorOff='\e[0m'     	# Color text default
+DefaultBd='\e[49m'      # Background color default
+Backup='\e[0;31m'       # Red
+BackupDim='\e[2;31m'    # Red dim
+Internet='\e[0;34m'     # Blue
+InternetDim='\e[2;34m'  # Blue dim
+Warning='\e[0;36m'      # Cyan
+WarningDim='\e[2;36m'   # Cyan dim
+User='\e[0;37m'         # White
+UserDim='\e[2;37m'      # White dim
+UserBold='\e[1;37m'     # White bold
+Other='\e[0;90m'    	# Dark gray
+OtherDim='\e[2;90m' 	# Dark gray dim
+Ender='\e[0;94m' 	# To do
+Error='\e[37;1;41m'     # Red background
+Underline='\e[4m' 	# Underline
+
+trustRemote()
+{
+	ssh-keygen -t rsa
+	ssh $remote mkdir -p .ssh
+	cat /home/zois/.ssh/id_rsa.pub | ssh $remote 'cat >> /root/.ssh/authorized_keys'
+}
+
+sectionEnd()
+{
+	printf "${Ender}Section end|" && printf "\u2015%0.s" {1..120} && printf "\n${ColorOff}"
+}

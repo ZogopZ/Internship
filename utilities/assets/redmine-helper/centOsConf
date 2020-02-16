@@ -1,0 +1,149 @@
+# This is a reminder of things you have to do in order to configure
+# redmine with postgres database running on a virtual machine server.
+#
+# Server version: CentOS Linux release 7.7.1908 (Core) ($cat /etc/centos-release)
+# Redmine version: 4.1-stable Revision 19343
+#	(Downloaded using $svn checkout https://svn.redmine.org/redmine/branches/4.1-stable/)
+
+2. Database version: postgres (PostgreSQL) 9.2.24 (current CentOS repositories)
+
+	2.1. $sudo yum install postgresql-server postgresql-contrib
+	# Download and install needed tools.
+
+	2.2. $sudo postgresql-setup initdb
+	# Initialize postgres database server.
+
+	2.3. $sudo systemctl start postgresql
+	# Start postgresql service.
+
+	2.4. $sudo systemctl enable postgresql
+	# Configure PostgreSQL to start on boot.
+
+?. SELinux disable (SELinux by default denies web server access to files)
+
+      --Hostname is the name given to the end-point (the machine in question)
+	and will be used to identify it over DNS if that is configured.
+      --Domain is the name given to the network and it will be required to reach
+	the network from an external point (like the Internet).
+	Example: If a machine -with hostname 'mymachine'- is a part of a
+	network -with domain name 'mynetwork.com'- , then that machine would be addressed as
+	'mymachine.mynetwork.com' and this is the address we would use to reach it from the
+	internet.
+
+?. $yum install httpd
+# Install apache on CentOS
+
+# Apache passenger installation
+		1. $yum install -y httpd-devel libcurl-devel apr-devel apr-util-devel mod_ssl
+		Before installing passenger install above tools.
+
+		2. $cd /var/www/html/redmine
+		   $gem install passenger
+		Change directory to redmine installation directory and install passenger.
+
+		3. $/usr/local/rvm/gems/ruby-2.6.5/gems/passenger-6.0.4/bin/passenger-install-apache2-module
+		Locate the installation path of passenger and install passenger-install-apache2-module.
+		The installer will proceed for some time. In the end in will prompt us to copy module's configuration
+		to /etc/httpd/conf/httpd.conf file. Copy the specified and exit file. Then press enter to finish
+		module's installation.
+
+		4. Copy and paste below lines in /etc/httpd/conf/httpd.conf file
+<VirtualHost *:80>
+   ServerName roms
+   DocumentRoot "/var/www/html/redmine/public"
+   ErrorLog logs/redmine_error_log
+   LogLevel warn
+   <Directory "/var/www/html/redmine/public">
+      Options Indexes ExecCGI FollowSymLinks
+      Require all granted
+      AllowOverride all
+   </Directory>
+</VirtualHost>
+		proceed to saves changes and exit.
+
+		5. $cd /var/www/html/redmine
+		   $chown -R apache:apache files log tmp vendor
+		Give apache write access to above directories (files log tmp vendor)
+
+		6. $systemctl restart httpd
+		Restart apache.
+
+	. In order to serve an example index.html on the localhost of the server, open httpd configuration file
+	$nano /etc/httpd/conf/httpd.conf and edit the line 'Listen 80' to 'Listen 127.0.0.1:80' or localhost:80
+	After that you can access the address 127.0.0.1:80 on a browser or use $curl -Is localhost:80 or $curl -Is 127.0.0.1:80
+	The first line of curl command's output should be HTTP/1.1 200 OK
+	. If we want to serve the same example externally and locally, we edit the line 'Listen 80' to 'Listen 10.10.111.77:80'
+	Then we can use the address 10.10.111.77:80 to open the specified address.
+	. Comment out all uncomment lines in file /etc/httpd/conf.d/welcome.conf and restart httpd using $systemctl restart httpd
+	to see a listing of directory /var/www/html/
+
+?. Ports to open server side 22(ssh) 80(apache) 443(httpd).
+
+?. echo "Loadmodule passenger_module /Path_to/mod_passenger.so" | sudo tee -a /etc/httpd/conf.modules.d/00-base.conf
+
+?. CentOS requires python 2.7 but the redminelib module is not available with python 2.7 and requires a higher version.
+Instead use a virtual environment to host the python server application with python 3.6.
+$yum install rh-python36
+$scl enable rh-python36 bash
+$mkdir app
+$cd app
+$python3 -m venv venv
+
+?. To access a remote local server running on port 5000 from a client, given that a web application is running on port 80 of the 
+remote machine, replace this part in file /etc/httpd/conf/httpd.conf:
+<VirtualHost *:80>
+   ServerName roms
+   DocumentRoot "/var/www/html/redmine/public"
+   ErrorLog logs/redmine_error_log
+   LogLevel warn
+   <Directory "/var/www/html/redmine/public">
+      Options Indexes ExecCGI FollowSymLinks
+      Require all granted
+      AllowOverride all
+   </Directory>
+</VirtualHost>
+
+with: 
+<VirtualHost *:80>
+    ServerName 10.10.111.77
+    ProxyPass /hello http://localhost:5000/hello
+    ProxyPassReverse /hello http://localhost:5000/hello
+    DocumentRoot "/var/www/html/redmine/public"
+    ErrorLog logs/redmine_error_log
+    LogLevel warn
+
+    <Directory "/var/www/html/redmine/public">
+        Options Indexes ExecCGI FollowSymLinks
+        Require all granted
+        AllowOverride all
+    </Directory>
+</VirtualHost>
+
+Also the following apache modules need to be enabled:
+  proxy_module
+  proxy_http_module
+  proxy_balancer_module
+  lbmethod_byrequests_module
+In case the modules are not enabled, you can enable them by opening the module configuration file by typing:
+  $sudo nano /etc/httpd/conf.modules.d/00-proxy.conf
+and uncommenting lines with necessary modules by removing # sign from the line beginnings. These are the lines:
+#  LoadModule proxy_module modules/mod_proxy.so
+#  LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+#  LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+#  LoadModule proxy_http_module modules/mod_proxy_http.so
+
+They type:
+  $systemctl restart httpd
+to restart apache. 
+
+You can check the enabled modules by typing:
+  $httpd -M
+
+Notice the lines: 
+	ProxyPass /hello http://localhost:5000/hello
+	ProxyPassReverse /hello http://localhost:5000/hello
+In this example hello is a flask application.
+Whenever a client requests something like this http://remote_host/hello
+it is being translated to localhost:5000/hello at the remote host. This is a request to remote machine's local server (flask application).
+
+

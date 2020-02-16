@@ -1,0 +1,156 @@
+#!/bin/bash
+source /home/zois/Documents/Internship/utilities/tools  # Include tools in this file. Absolute path to tools.
+
+
+function chooseTodoFunc()
+{
+	# Create new todo, remove an already existing one or exit.
+	choice="invalid"
+	echo -e "${UserDim}User       |${User} Type ${Underline}new${ColorOff}${User} to create a new todo, ${Underline}rm${ColorOff}${User} to delete an existing todo or ${Underline}exit${ColorOff}${User} to exit.${ColorOff}"
+	while [ $choice = "invalid" ]
+	do
+		read -p "$(echo -e "${UserDim}User       |${User} What would you like to do (new/rm/exit)?: ${ColorOff}")" choice
+		case "$choice" in
+			new)
+				echo -e "${UserDim}User       |${User}   Adding new todo...${ColorOff}"
+				chooseTodoType
+				chooseTodoCriticality
+				addTodo
+				;;
+			rm)
+				echo -e "${UserDim}User       |${User}   Removing existing todo...${ColorOff}"
+				chooseTodoType
+				removeTodo
+				;;
+			exit)
+				echo -e "${UserDim}User       |${User}   Exiting...${ColorOff}"
+				;;
+			*)
+				choice="invalid"
+				echo -e "${UserDim}User       |${User}   Invalid selection. Please type new, rm or exit to continue...${ColorOff}"
+				;;
+		esac
+	done
+}
+
+function chooseTodoType()
+{
+	# Choose todo type.
+	echo -e "${UserDim}User       |${User}   Choosing todo type...${ColorOff}"
+	todoType="invalid"
+	while [ $todoType == "invalid" ]
+	do
+		read -p "$(echo -e "${UserDim}User       |${User}    -What kind of todo would you like to add/remove, Company or Personal (c/p)?:${ColorOff}")" todoType
+		case $todoType in
+			c|co|com|comp|compa|compan|company|cmp)
+				todoType="company"
+				;;
+			p|pe|per|pers|perso|person|persona|personal)
+				todoType="personal"
+				;;
+			e|ex|exi|exit|ext)
+				todoType="exit"
+				;;
+			*)
+				todoType="invalid"
+				echo -e "${UserDim}User       |${User}    -Invalid selection. Please type c(company), p(personal) or exit to continue...${ColorOff}"
+				;;
+		esac
+	done
+}
+
+function chooseTodoCriticality()
+{
+	# Choose todo criticality
+	echo -e "${UserDim}User       |${User}   Choosing todo criticality...${ColorOff}"
+	todoCriticality="invalid"
+	while [ $todoCriticality == "invalid" ]
+	do
+		read -p "$(echo -e "${UserDim}User       |${User}    -What type of todo would you like to add Very-High/High/Medium/Low/Very-Low (vh/h/m/l/vl)?:${ColorOff}")" todoCriticality
+		case $todoCriticality in
+			vh|5)
+				todoCriticality="VERY-HIGH"
+				;;
+			h|4)
+				todoCriticality="HIGH"
+				;;
+			m|3)
+				todoCriticality="MEDIUM"
+				;;
+			l|2)
+				todoCriticality="LOW"
+				;;
+			vl|1)
+				todoCriticality="VERY-LOW"
+				;;
+			e|ex|exi|exit|ext)
+				todoCriticality="exit"
+				;;
+			*)
+				todoCriticality="invalid"
+				echo -e "${UserDim}User       |${User}    -Invalid selection. Please type vh(very-high), h(high), m(medium), l(low), vl(very-low) or exit to continue...${ColorOff}"
+				;;
+		esac
+	done
+}
+
+function addTodo()
+{
+	# Add too or exit.
+	if [[ $todoType == "exit" || $todoCriticality == "exit" ]]; then
+		echo -e "${UserDim}User       |${User}    -Exiting without adding to do.${ColorOff}"
+	else
+		echo -e "${UserDim}User       |${User}   Adding new ${Underline}${todoType}${ColorOff}${User} todo with ${Underline}${todoCriticality}${ColorOff}${User} criticality.${ColorOff}"
+		date=$(date "+%d-%m-%Y")
+		pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+		pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+		pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
+		read -p "$(echo -e "${UserDim}User       |${User}    -Please add todo text:${ColorOff}")" todoText
+		read -p "$(echo -e "${UserDim}User       |${User}    -Please add current functionality:${ColorOff}")" currentFunc
+		if [ $todoType == "company" ]; then
+			increasingNumber=$(($(grep -e "^# Current" $pathToCompany | grep -Eo [0-9]+)+1))
+			label="company $increasingNumber"
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToCompany > $pathToTemp
+			cp $pathToTemp $pathToCompany
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToCompany > $pathToTemp
+			cp $pathToTemp $pathToCompany
+			cat $pathToCompany
+		elif [ $todoType == "personal" ]; then
+			increasingNumber=$(($(grep -e "^# Current" $pathToPersonal | grep -Eo [0-9]+)+1))
+			label="personal $increasingNumber"
+			todoCriticality="\\[${todoCriticality}]\\" # Add [] characters to criticality. This is done in order to differentiate between LOW, VERY-LOW and HIGH, VERY-HIGH. The [] characters need escaping when using sed.
+			sed "s/\(""${todoCriticality}"":\)\(.*\)/\1\n\n""${label}""\n""${todoCriticality}"" ->\tto-do:\t\t""${todoText}""\n(""${date}"")\tcurrent:\t""$currentFunc""\n""$(printf "_%0.s" {1..160})""\2/" $pathToPersonal > $pathToTemp
+			cp $pathToTemp $pathToPersonal
+			sed "s/\(# Current \)\([0-9]*$\)/\1${increasingNumber}/" $pathToPersonal > $pathToTemp
+			cp $pathToTemp $pathToPersonal
+			cat $pathToPersonal
+		fi
+		rm $pathToTemp
+		echo -e "${UserDim}User       |${User}    -Dummy succefully added.${ColorOff}" # TODO
+	fi
+}
+
+function removeTodo()
+{
+	read -p "$(echo -e "${UserDim}User       |${User}    -Please type issue number to be removed from $todoType todos:${ColorOff}")" issueNumber
+	pathToPersonal="/home/zois/Documents/Internship/utilities/todos/personal"
+	pathToCompany="/home/zois/Documents/Internship/utilities/todos/company"
+	pathToCompletedIssues="/home/zois/Documents/Internship/utilities/todos/completedIssues"
+	pathToTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
+	label="$todoType $issueNumber$"
+	if [ $todoType == "company" ]; then
+		grep -A3 "$label" $pathToCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
+		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToCompany > $pathToTemp
+		cp $pathToTemp $pathToCompany
+	elif [ $todoType == "personal" ]; then
+		grep -A3 "$label" $pathToPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
+		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp
+		cp $pathToTemp $pathToPersonal
+	fi
+	echo -e "${UserDim}User       |${User}    -Dummy succefully removed.${ColorOff}" # TODO
+	rm $pathToTemp
+}
+
+chooseTodoFunc
+

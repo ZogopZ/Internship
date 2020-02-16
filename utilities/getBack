@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo $(spd-say 'get back to work')

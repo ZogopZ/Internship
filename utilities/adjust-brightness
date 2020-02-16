@@ -1,0 +1,35 @@
+#!/bin/bash
+source /home/zois/Documents/Internship/utilities/tools  # Include tools in this file. Absolute path to tools.
+
+
+# Set paths, permissions and variables.
+brightnessFile="/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/brightness"
+maxBrightnessFile="/sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/intel_backlight/max_brightness"
+sudo chown zois:root $brightnessFile
+minBrightness=0
+maxBrightness=$(sudo cat $maxBrightnessFile)
+
+
+# Switch brightness or exit
+re='^[0-9]+$' # Match any number.
+if [ $# -eq 0 ];  then # No arguments were supplied.
+	echo -e "${UserDim}User       |${User} No arguments supplied. Switching brightness to default 600.${ColorOff}"
+	echo 600 > $brightnessFile
+elif ! [[ $1 =~ $re ]]  ||  [[ $1 -lt $minBrightness || $1 -gt maxBrightness ]] ; then # Wrong arguments supplied. No number or number less than 0 or number greater than max brightness.
+	echo -e "${WarningDim}Warning     |${Warning} Invalid parameters supplied. Please use a number between 0(BLACK SCREEN) and 937 (Brightest).${ColorOff}"
+elif [[ $1 -gt $minBrightness && $1 -lt 10 ]]; then # Number 1-9 supplied. Switching to 0/100/200/300/400/500/600/700/800/900 brightness.
+	echo -e "${UserDim}User       |${User} Switching brightness to $(($1 * 100)).${ColorOff}"
+	echo $(($1 * 100)) > $brightnessFile
+else # Valid number supplied. Switching to corresponding brightness.
+	echo -e "${UserDim}User       |${User} Switching brightness to $1.${ColorOff}"
+	echo $1 > $brightnessFile
+fi
+
+
+# Reset ownership.
+echo -e "${UserDim}User       |${User} Resetting ownership of file ${brightnessFile}...${ColorOff}"
+sudo chown root:root $brightnessFile
+
+
+# End message
+echo -e "${UserDim}User       |${UserBold} ---Success---${ColorOff}"

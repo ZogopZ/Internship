@@ -1,0 +1,45 @@
+#!/bin/bash
+
+RedDockerRestart()
+{
+  echo "Restarting docker_redmine_1"
+  echo $(docker restart docker_redmine_1)
+  wait
+  echo -e "Restart completed!"
+}
+
+OpenGnome()
+{
+  echo "Opening new bash into redmine container"
+  echo $(gnome-terminal -- sh -c 'docker exec\
+  -ti docker_redmine_1 /bin/bash; exec bash')
+}
+
+DatabaseRestart()
+{
+  echo "Warning this will restart the postgres database!!!"
+  echo "Are you sure you want to continue? (y/n)"
+  read userInput
+  if [ $userInput = "y" ];  then
+    echo "Restarting docker_postgres_1"
+    echo $(docker restart docker_postgres_1)
+    wait
+    echo -e "Restart completed!"
+  else
+    echo "Aborting..."
+  fi
+}
+
+if [ "$#" -eq  "0" ]; then
+  echo "No arguments provided. Do nothing"
+elif [ $1 = "-r" ]; then
+  RedDockerRestart
+elif [ $1 = "-rb" ]; then
+  RedDockerRestart
+  OpenGnome
+elif [ $1 = "-db" ]
+then
+  DatabaseRestart
+elif [ $1 = "-b" ]; then
+  OpenGnome
+fi
