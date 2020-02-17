@@ -1,0 +1,119 @@
+
+personal 1
+[MEDIUM] ->	to-do:		updater bash script should additionaly copy file redmine/public/403.html to the newer redmine version.
+(10-01-2020)    current:	updater bash script does not copy redmine/public/403.html to the newer redmine version.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 2
+[LOW] ->	to-do:		aliases bash script should be corrected. Root user is being called unnecessarily.
+(10-01-2020)	current:	Upon completion user is changed automatically to root creating chaos and panic.
+________________________________________________________________________________________________________________________________________________________________
+personal 11
+[VERY-LOW] ->	to-do:		Listing todos with todo -c or todo -p should not return any results if there are no todos left.
+(20-01-2020)	current:	Running todo -c for an empty company todo file greps the whole file, which is greps default functionality.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 13
+[LOW] ->	to-do:		When adding a new todo, if the generated issue number has two digits the label # Current IssueNo should be modified correctly.
+(20-01-2020)	current:	When adding a new todo, if the generated issue number has two digits the label # Current IssueNo appends numbers instead of replacing them.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 12
+[MEDIUM] ->	to-do:		Remove unwanted files from python's application directory.
+(20-01-2020)	current:	Virtual environment experiments have left python application directory with propable garbage.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 14
+[MEDIUM] ->	to-do:		Create Readme file for bash utilities, to use with version control.
+(20-01-2020)	current:	There is no Readme file for bash utilities. I should not push to remote repository without one.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 15
+[VERY-LOW] ->	to-do:		Add comments to todo bash script.
+(21-01-2020)	current:	There are no comments in todo bash script.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 16
+[VERY-LOW] ->	to-do:		Print output when removing or adding todos.
+(21-01-2020)	current:	Nothing is being outputed when adding or removing todos.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 17
+[MEDIUM] ->	to-do:		Fix edit-day-message bash script to run from all locations.
+(21-01-2020)	current:	edit-day-message bash script does not run correctly from other paths, except Utilities directory.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 18
+[MEDIUM] ->	to-do:		Add full path for files in update-redmine bash script.
+(22-01-2020)	current:	Relative paths for files in update-redmine bash script are provided. Thus it cannot be run outside Utilities directory.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 3
+[VERY-LOW] ->	to-do:		Fix monthly wage earned using off days pay.
+(10-01-2020)	current:	startupMail is not calculating properly monthly wage earned, due to some off days being paid.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 19
+[VERY-LOW] ->	to-do:		Move startupMail and needed python files to utilities directory.
+(23-01-2020)	current:	startupMail bash script and need python files for mail spamming are not in utilities directory.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 20
+[HIGH] ->	to-do:		Control read output with left and right arrows in aliases bash script.
+(23-01-2020)	current:	Pressing right or left arrow in read mode, prints characters instead of actually moving the cursor.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 21
+[MEDIUM] ->	to-do:		Fix todo bash script to print the oldest todo.
+(23-01-2020)	current:	todo bash script sometimes prints an old todo and sometimes a new todo.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 4
+[VERY-LOW] ->	to-do:		Fix color output for various utility bash files.
+(10-01-2020)	current:	Various utility bash files are not yet updated with new colors.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 5
+[LOW] ->	to-do:		Rework add-todo bash script last part. A lot of repeated code.
+(13-01-2020)	current:	If-elif last part results in four partially different sed commands.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 6
+[LOW] ->	to-do:		Implement todos appearance in good-morning bash script.
+(14-01-2020)	current:	good-morning bash script currently just diplays a day message then mounts redmine and python and then backs up postgreSQL
+________________________________________________________________________________________________________________________________________________________________
+
+personal 7
+[VERY-LOW] ->	to-do:		Fix edit-dayMessage bash script to correctly show message of the day after edition.
+(14-01-2020)	current:	edit-dayMessage bash script shows wrong lines with cat command after editing.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 8
+[VERY-LOW] ->	to-do:		Fix tabulation in multiple bash script files.
+(14-01-2020)	current:	Multiple bash script files have incorrect indentation.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 9
+[VERY-LOW] ->	to-do:		Start startupMail bash script from good-morning bash script.
+(15-01-2020)	current:	startupMail bash script is now being executed independently.
+________________________________________________________________________________________________________________________________________________________________
+personal 22
+[MEDIUM] ->	to-do:		For todo bash script create flag -c. When calling todo -p -c this will remove the currently working todo.
+(24-01-2020)	current:	There is not such an option yet.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 23
+[MEDIUM] ->	to-do:		Merge todo and edit-todo bash scripts together. No need for seperate files. $todo will be the same as $edit-todo.
+(24-01-2020)	current:	todo and edit-todo bash scripts are two different files.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 35
+[LOW] ->	to-do:		Rename 'todo' to 'todo.sh'.
+(11-02-2020)	current:	'todo' bash script does not follow correct naming convention.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 24
+[MEDIUM] ->	to-do:		Control read output with left and right arrows in edit-todo bash script.
+(24-01-2020)	current:	Pressing right or left arrow in read mode, prints characters instead of actually moving the cursor.
+________________________________________________________________________________________________________________________________________________________________
+
