@@ -1,11 +1,16 @@
 Personal
-# Current 35
+# Current 36
 
 
 [VERY-HIGH]:
 
 
 [HIGH]:
+
+personal 36
+[HIGH] ->	to-do:		Somethins is wrong with 'todo' bash script when creating a very long new todo.
+(18-02-2020)	current:	'todo' bash script stops and truncates todos when adding a very long todo.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 34
 [HIGH] ->	to-do:		Merge ready branches to master in git.

@@ -1,8 +1,13 @@
 Company
-# Current 4
+# Current 5
 
 
 [VERY-HIGH]:
+
+company 5
+[VERY-HIGH] ->	to-do:		Root user should not be used when transacting with remote machine.
+(18-02-2020)	current:	Root user owns everything in remote machine. Maybe this is wrong?
+________________________________________________________________________________________________________________________________________________________________
 
 
 [HIGH]:
