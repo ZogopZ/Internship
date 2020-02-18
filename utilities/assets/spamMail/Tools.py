@@ -1,4 +1,6 @@
 import datetime
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
@@ -116,37 +118,60 @@ def paid_days_off(now):
     return off_days_paid
 
 def send_email(zois_email):
-    msg = MIMEMultipart()  # Create message object instance.
-    # recipients = ["theonzwg@gmail.com", "tzogx@hotmail.com", "Marianna.Leventi@ruhr-uni-bochum.de",
-    #               "zwisss@hotmail.com"]
-    msg['From'] = "zwisss@hotmail.com"  # Setup the parameters of the message.
-    # msg['To'] = ", ".join(recipients)
-    # msg['To'] = "zwisss@hotmail.com"
-    msg['Subject'] = "Very important stuff"
-    msg.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
-
-    server = smtplib.SMTP("smtp.live.com", 587)
+    sender = 'zwisss@hotmail.com'
+    # recipients_list = ['zwisss@hotmail.com']
+    recipients_list = ['zwisss@hotmail.com', 'theonzwg@gmail.com', 'marianna.leventi@fil.lu.se', 'ilias.Anagnostopoulos@intrasoft-intl.com', 'tzogx@hotmail.com']
+    server = smtplib.SMTP('smtp.live.com', 587)
     server.ehlo()  # Hostname to send for this command defaults to the fully qualified domain name of the local host.
     server.starttls()  # Puts connection to SMTP server in TLS mode
     server.ehlo()
-    server.login('zwisss@hotmail.com', getpass.getpass("Password: "))  # Hide password typing from screen.
+    server.login('zwisss@hotmail.com', getpass.getpass('Password: '))  # Hide password typing from screen.
 
-    server.sendmail(msg['From'], "zwisss@hotmail.com", msg.as_string())  # Send the message via the server.
-    print("\nMail to maself was successfully sent.")
-
-    server.sendmail(msg['From'], "theonzwg@gmail.com", msg.as_string())
-    print("Mail to Porportheon was successfully sent.")
-
-    msg['Subject'] = '[Zizizi] Regarding montly salary.'
-    server.sendmail(msg['From'], "marianna.leventi@fil.lu.se", msg.as_string())
-    print("Mail to PhD student Marianna, was successfully sent.")
-
-    msg['Subject'] = "Σχετικά με τον μηνιαίο μισθό."
-    server.sendmail(msg['From'], "ilias.Anagnostopoulos@intrasoft-intl.com", msg.as_string())
-    print("Mail to Ilia, was successfully sent.")
-
-    server.sendmail(msg['From'], "tzogx@hotmail.com", msg.as_string())
-    print("Mail to Taso, was successfully sent.")
-
+    for receiver in recipients_list:
+        message = create_message(zois_email, sender, receiver)
+        server.sendmail(message['From'], message['To'], message.as_string())  # Send the message via the server.
+        if receiver == 'zwisss@hotmail.com':
+            print('\nMail to maself was successfully sent.')
+        elif receiver == 'theonzwg@gmail.com':
+            print('Mail to Porportheon was successfully sent.')
+        elif receiver == 'marianna.leventi@fil.lu.se':
+            print('Mail to PhD student Marianna, was successfully sent.')
+        elif receiver == 'ilias.Anagnostopoulos@intrasoft-intl.com':
+            print('Mail to Ilia, was successfully sent.')
+        elif receiver == 'tzogx@hotmail.com':
+            print('Mail to Taso, was successfully sent.')
     server.quit()
 
+def create_message(zois_email, sender, receiver):
+    ptd_images = '/home/zois/Documents/Internship/utilities/assets/spamMail/assets/images/'
+    ptf_image = ''
+    message = MIMEMultipart()  # Create message object instance.
+    message['From'] = sender  # Setup the parameters of the message.
+    message['To'] = receiver
+    if receiver == 'zwisss@hotmail.com':
+        message['Subject'] = 'Very important stuff'
+        ptf_image = ptd_images + 'zois.png'
+    elif receiver == 'theonzwg@gmail.com':
+        message['Subject'] = 'Σπίτι με 200 ευρώ και όλα τα κομφόρ!'
+        ptf_image = ptd_images + 'theoni.png'
+    elif receiver == 'marianna.leventi@fil.lu.se':
+        message['Subject'] = '[Zizizi] Regarding monthly salary.'
+        ptf_image = ptd_images + 'marianna2.png'
+    elif receiver == 'ilias.Anagnostopoulos@intrasoft-intl.com':
+        message['Subject'] = 'Σχετικά με τον μηνιαίο μισθό.'
+        ptf_image = ptd_images + 'ilias.png'
+    elif receiver == 'tzogx@hotmail.com':
+        message['Subject'] = 'Best bees are the dead bees.'
+        ptf_image = ptd_images + 'tasos.png'
+    message.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
+
+    # to add an attachment is just add a MIMEBase object to read a picture locally.
+    with open(ptf_image, 'rb') as f:
+        mime = MIMEBase('image', 'png')
+        mime.add_header('Content-Disposition', 'attachment', filename='zois.jpg')
+        mime.add_header('X-Attachment-Id', '0')
+        mime.add_header('Content-ID', '<0>')
+        mime.set_payload(f.read())
+        encoders.encode_base64(mime)
+        message.attach(mime)
+    return message
