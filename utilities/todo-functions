@@ -5,13 +5,13 @@ source /home/zois/Documents/Internship/utilities/tools # Include tools in this f
 function  displayTodo()
 {
 	if [[ $todoType == "personal" ]]; then # Displays the oldest personal todo to the user.
-		label=$(grep personal $ptfPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select the one with the smallest issue number.
+		label=$(grep "^personal" $ptfPersonal | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$" # grep all personal labels and select the one with the smallest issue number.
 		label="personal ${label}" # Prepend "personal " to label, to correctly grep the issue.
 		echo > $ttyCurrent 2>&1
 		grep -A3 "$label" $ptfPersonal > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
 		echo > $ttyCurrent 2>&1
 	elif [[ $todoType == "company" ]]; then # Displays the oldest company todo to the user.
-		label=$(grep company $ptfCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
+		label=$(grep "^company" $ptfCompany | awk '{print $2}' | sort -n  | awk 'NR==1{print $1}') && label="${label}$"
 		label="company ${label}" # Prepend "company " to label, to correctly grep the issue.
 		echo > $ttyCurrent 2>&1
 		grep -A3 "$label" $ptfCompany > $ttyCurrent 2>&1 # Find the labeled issue and grep it with the three lines below. Each issue consists of four lines.
@@ -25,18 +25,23 @@ function  displayTodo()
 
 function completeTodo()
 {
+	ptfTemp="/home/zois/Documents/Internship/utilities/todos/tempTodos.tmp"
+	pathToCompletedIssues="/home/zois/Documents/Internship/utilities/todos/completed${todoType^}"  # This is either 'todos/completedPersonal' or 'todos/completedCompany' according to given argument.
+	label="$todoType"" ""$labelNo"  # Find which todo number is to be completed.
 	if [[ $todoType == "personal" ]]; then
-		grep -A3 "$label" $pathToPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
-		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToPersonal > $pathToTemp
-		cp $pathToTemp $pathToPersonal
+		echo yes this is personal
+		grep -A3 "$label" $ptfPersonal >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
+		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $ptfPersonal > $ptfTemp
+		echo awked
+		cp $ptfTemp $ptfPersonal
 	elif [[ $todoType == "company" ]]; then
-		grep -A3 "$label" $pathToCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
-		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $pathToCompany > $pathToTemp
-		cp $pathToTemp $pathToCompany
+		grep -A3 "$label" $ptfCompany >> $pathToCompletedIssues && echo >> $pathToCompletedIssues
+		awk '/'"$label"'/{getline;getline;getline;getline;next} 1' $ptfCompany > $ptfTemp
+		cp $ptfTemp $ptfCompany
 
 	fi
-	echo -e "${UserDim}User       |${User}    -Dummy succefully removed.${ColorOff}" # TODO
-	rm $pathToTemp
+	echo -e "${UserDim}User       |${User}    -Dummy succefully completed.${ColorOff}" # TODO
+	rm $ptfTemp
 }
 
 function newTodo()

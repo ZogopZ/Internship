@@ -120,7 +120,7 @@ def paid_days_off(now):
 def send_email(zois_email):
     sender = 'zwisss@hotmail.com'
     # recipients_list = ['zwisss@hotmail.com']
-    recipients_list = ['zwisss@hotmail.com', 'theonzwg@gmail.com', 'marianna.leventi@fil.lu.se', 'ilias.Anagnostopoulos@intrasoft-intl.com', 'tzogx@hotmail.com']
+    recipients_list = ['zwisss@hotmail.com', 'theonzwg@gmail.com', 'mariannaleventi@gmail.com', 'ilias.Anagnostopoulos@intrasoft-intl.com', 'tzogx@hotmail.com']
     server = smtplib.SMTP('smtp.live.com', 587)
     server.ehlo()  # Hostname to send for this command defaults to the fully qualified domain name of the local host.
     server.starttls()  # Puts connection to SMTP server in TLS mode
@@ -128,39 +128,39 @@ def send_email(zois_email):
     server.login('zwisss@hotmail.com', getpass.getpass('Password: '))  # Hide password typing from screen.
 
     for receiver in recipients_list:
-        message = create_message(zois_email, sender, receiver)
+        message = create_message(zois_email, sender, receiver, recipients_list)
         server.sendmail(message['From'], message['To'], message.as_string())  # Send the message via the server.
-        if receiver == 'zwisss@hotmail.com':
+        if receiver == recipients_list[0]:
             print('\nMail to maself was successfully sent.')
-        elif receiver == 'theonzwg@gmail.com':
+        elif receiver == recipients_list[1]:
             print('Mail to Porportheon was successfully sent.')
-        elif receiver == 'marianna.leventi@fil.lu.se':
+        elif receiver == recipients_list[2]:
             print('Mail to PhD student Marianna, was successfully sent.')
-        elif receiver == 'ilias.Anagnostopoulos@intrasoft-intl.com':
+        elif receiver == recipients_list[3]:
             print('Mail to Ilia, was successfully sent.')
-        elif receiver == 'tzogx@hotmail.com':
+        elif receiver == recipients_list[4]:
             print('Mail to Taso, was successfully sent.')
     server.quit()
 
-def create_message(zois_email, sender, receiver):
+def create_message(zois_email, sender, receiver, recipients_list):
     ptd_images = '/home/zois/Documents/Internship/utilities/assets/spamMail/assets/images/'
     ptf_image = ''
     message = MIMEMultipart()  # Create message object instance.
     message['From'] = sender  # Setup the parameters of the message.
     message['To'] = receiver
-    if receiver == 'zwisss@hotmail.com':
+    if receiver == recipients_list[0]:
         message['Subject'] = 'Very important stuff'
         ptf_image = ptd_images + 'zois.png'
-    elif receiver == 'theonzwg@gmail.com':
+    elif receiver == recipients_list[1]:
         message['Subject'] = 'Σπίτι με 200 ευρώ και όλα τα κομφόρ!'
         ptf_image = ptd_images + 'theoni.png'
-    elif receiver == 'marianna.leventi@fil.lu.se':
+    elif receiver == recipients_list[2]:
         message['Subject'] = '[Zizizi] Regarding monthly salary.'
         ptf_image = ptd_images + 'marianna2.png'
-    elif receiver == 'ilias.Anagnostopoulos@intrasoft-intl.com':
+    elif receiver == recipients_list[3]:
         message['Subject'] = 'Σχετικά με τον μηνιαίο μισθό.'
         ptf_image = ptd_images + 'ilias.png'
-    elif receiver == 'tzogx@hotmail.com':
+    elif receiver == recipients_list[4]:
         message['Subject'] = 'Best bees are the dead bees.'
         ptf_image = ptd_images + 'tasos.png'
     message.attach(MIMEText(zois_email, 'plain'))  # Add in the message body.
@@ -168,7 +168,7 @@ def create_message(zois_email, sender, receiver):
     # to add an attachment is just add a MIMEBase object to read a picture locally.
     with open(ptf_image, 'rb') as f:
         mime = MIMEBase('image', 'png')
-        mime.add_header('Content-Disposition', 'attachment', filename='zois.jpg')
+        mime.add_header('Content-Disposition', 'attachment', filename='zois.png')
         mime.add_header('X-Attachment-Id', '0')
         mime.add_header('Content-ID', '<0>')
         mime.set_payload(f.read())

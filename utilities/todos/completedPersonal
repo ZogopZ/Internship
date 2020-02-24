@@ -102,3 +102,8 @@ personal 22
 (24-01-2020)	current:	There is not such an option yet.
 ________________________________________________________________________________________________________________________________________________________________
 
+personal 25
+[HIGH] ->	to-do:		Fix edit-day-message to correctly replace good-morning's bash script message.
+(24-01-2020)	current:	Something is wrong when replacing with a large day-message in edit-day-message bash script
+________________________________________________________________________________________________________________________________________________________________
+

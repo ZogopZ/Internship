@@ -13,9 +13,8 @@ startTemplateLine="echo -e \"${OtherDim}Init       |${Other}                    
 endTemplateLine=" ***|${ColorOff}\"\n"
 finalLine="echo -e \"${OtherDim}Init       |${Other}                    |************************************************************************************|${ColorOff}\""
 
-messageLine=$(grep -n Message $pGood | cut -d : -f 1) # Find which line has the previous message to be edited.
+messageLine=$(grep -n Message $ptfGood | cut -d : -f 1) # Find which line has the previous message to be edited.
 messageLength=0
-
 
 # New message's generation.
 echo -e "${UserDim}User       |${User} Please type tommorow's message and press enter.${ColorOff}"
@@ -55,9 +54,8 @@ elif [ $messageLength -le 76 ]; then # New message fits in one line. This is a u
 	messageGenerated="${messageGenerated}${startLine3}${newMessage}${appendSpaces}${endLine3}${finalLine}" # Append spaces string to new message.
 fi
 
-
 # Edit good-morning bash script and print result.
 start="# Start \(Do not edit this line!!!\)"
 end="# End \(Do not edit this line!!!\)"
-perl -i -pe "BEGIN{undef $/;} s/$start.*$end/$start\n${messageGenerated}\n$end/smg" $pGood
-awk "/$start/,/$end/" $pGood
+perl -i -pe "BEGIN{undef $/;} s/$start.*$end/$start\n${messageGenerated}\n$end/smg" $ptfGood
+awk "/$start/,/$end/" $ptfGood

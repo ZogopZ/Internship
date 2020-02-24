@@ -18,7 +18,7 @@ while [ $# -gt 0 ] ; do
 		-l | --low) optionsArray+=("$1") todoCriticality="LOW" criticalityIndex=$((${#optionsArray[@]}-1)) ;;
 		-vl | --very-low) optionsArray+=("$1") todoCriticality="VERY-LOW" criticalityIndex=$((${#optionsArray[@]}-1)) ;;
 
-		*) optionsArray+=("$1") labelNoIndex=$((${#optionsArray[@]}-1)) re='^[0-9]+$' ;;
+		*) optionsArray+=("$1") labelNoIndex=$((${#optionsArray[@]}-1)) re='^[0-9]+$' ;;  # Input argument is a number.
 	esac
 	shift
 done
@@ -46,14 +46,15 @@ elif [[ ${#optionsArray[@]} == 3 ]]; then
 			unset 'optionsArray[criticalityIndex]'
 			if [[ "${optionsArray[@]}" =~ "-n" || "${optionsArray[@]}" =~ "--new-todo" ]]; then
 				newTodo
-			elif [[ "${optionsArray[@]}" =~ "-C" || "${optionsArray[@]}" =~ "--complete-todo" ]]; then
-				completeTodo
 			else
 				echo -e "${Error}Error      | Invalid parameters...${DefaultBd}${ColorOff}"
 			fi
 		elif [[ "${optionsArray[@]}" =~ "-r" || "${optionsArray[@]}" =~ "--remove" ]] && [[ "${optionsArray[labelNoIndex]}" =~ $re ]]; then
 			labelNo="${optionsArray[labelNoIndex]}"
                 	removeTodo
+		elif [[ "${optionsArray[@]}" =~ "-C" || "${optionsArray[@]}" =~ "--complete-todo" ]]; then
+			labelNo="${optionsArray[labelNoIndex]}"
+			completeTodo
 		else
 			echo -e "${Error}Error      | Invalid parameters...${DefaultBd}${ColorOff}"
 		fi

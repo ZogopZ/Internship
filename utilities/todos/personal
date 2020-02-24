@@ -1,5 +1,5 @@
 Personal
-# Current 36
+# Current 38
 
 
 [VERY-HIGH]:
@@ -22,13 +22,18 @@ personal 26
 (28-01-2020)	current:	Activity tab is now disabled using both a plugin and a patch in redmine.rb file.
 ________________________________________________________________________________________________________________________________________________________________
 
-personal 25
-[HIGH] ->	to-do:		Fix edit-day-message to correctly replace good-morning's bash script message.
-(24-01-2020)	current:	Something is wrong when replacing with a large day-message in edit-day-message bash script
-________________________________________________________________________________________________________________________________________________________________
-
 
 [MEDIUM]:
+
+personal 38
+[MEDIUM] ->	to-do:		'edit-day-message' bash script is not working.
+(21-02-2020)	current:	'edit-day-message' bash script hangs on execution.
+________________________________________________________________________________________________________________________________________________________________
+
+personal 37
+[MEDIUM] ->	to-do:		Split completedIssues to paersonal and company.
+(19-02-2020)	current:	Company issues are not currently being ignored from git.
+________________________________________________________________________________________________________________________________________________________________
 
 personal 32
 [MEDIUM] ->	to-do:		Move todos directory in assets directory.

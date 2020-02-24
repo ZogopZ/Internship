@@ -7,8 +7,9 @@ user="$(sudo users)"
 # Start (Do not edit this line!!!)
 echo -e "[2;90mInit       |[0;90m Good morning to you too! Let's start, shall we?[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
-echo -e "[2;90mInit       |[0;90m Message of the day:|*** Check images for issue 15 (issue 15 was created on Tuesday). Something is fa ***|[0m"
-echo -e "[2;90mInit       |[0;90m                    |*** iling when downloading it. Start working on dynamic workflow.                ***|[0m"
+echo -e "[2;90mInit       |[0;90m Message of the day:|*** aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ***|[0m"
+echo -e "[2;90mInit       |[0;90m                    |*** aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ***|[0m"
+echo -e "[2;90mInit       |[0;90m                    |*** aaaaaaaaaaaaaaaaaaaaaaa                                                      ***|[0m"
 echo -e "[2;90mInit       |[0;90m                    |************************************************************************************|[0m"
 # End (Do not edit this line!!!)
 

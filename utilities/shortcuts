@@ -1,2 +1,3 @@
 #!/bin/bash
 source /home/zois/Documents/Internship/utilities/tools # Include tools in this file. Absolute path to tools.
+printf '%s\n' "${my_array[@]}"  # Prints array's contents on separate lines.
